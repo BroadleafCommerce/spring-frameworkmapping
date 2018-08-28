@@ -1,9 +1,9 @@
-package org.broadleafcommerce;
+package org.broadleafcommerce.frameworkmapping;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import org.broadleafcommerce.frameworkmapping.FrameworkControllerHandlerMapping;
+
 import org.broadleafcommerce.frameworkmapping.annotation.FrameworkController;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,25 +15,27 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+
 @WebMvcTest(includeFilters = {@ComponentScan.Filter(classes = FrameworkController.class),
                               @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE,
                                                     classes = FrameworkControllerHandlerMapping.class)})
-@ContextConfiguration(classes = DisabledFrameworkApplication.class)
+@ContextConfiguration(classes = EnabledFrameworkApplication.class)
 @RunWith(SpringRunner.class)
-public class DisabledFrameworkMappingTest {
+public class EnabledFrameworkMappingTest {
 
     @Autowired
     MockMvc mockMvc;
 
 
     @Test
-    public void testFrameworkOnlyGetMappingFails() throws Exception {
+    public void testFrameworkOnlyGetMappingWorks() throws Exception {
         mockMvc.perform(get("/framework-only-get"))
-                .andExpect(status().isNotFound());
+                .andExpect(status().isOk())
+                .andExpect(content().string("frameworkControllerOnlyGetResponse"));
     }
 
     @Test
-    public void testOverrideGetMappingStillWorks() throws Exception {
+    public void testOverrideGetMappingWorks() throws Exception {
         mockMvc.perform(get("/overridden-get"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("customControllerGetResponse"));
