@@ -1,4 +1,4 @@
-package org.broadleafcommerce.frameworkmapping;
+package org.broadleafcommerce.frameworkmapping.support;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;

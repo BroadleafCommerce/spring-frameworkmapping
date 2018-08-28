@@ -5,14 +5,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.broadleafcommerce.frameworkmapping.annotation.FrameworkController;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
 
@@ -20,7 +20,7 @@ import org.springframework.test.web.servlet.MockMvc;
                               @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE,
                                                     classes = FrameworkControllerHandlerMapping.class)})
 @ContextConfiguration(classes = EnabledFrameworkApplication.class)
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 public class EnabledFrameworkMappingTest {
 
     @Autowired

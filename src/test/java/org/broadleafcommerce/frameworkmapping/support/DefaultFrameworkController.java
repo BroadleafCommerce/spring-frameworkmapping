@@ -1,4 +1,4 @@
-package org.broadleafcommerce.frameworkmapping;
+package org.broadleafcommerce.frameworkmapping.support;
 
 import org.broadleafcommerce.frameworkmapping.annotation.FrameworkMapping;
 import org.broadleafcommerce.frameworkmapping.annotation.FrameworkRestController;
