@@ -67,7 +67,6 @@ import org.springframework.web.servlet.mvc.method.RequestMappingInfoHandlerMappi
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import org.springframework.web.servlet.mvc.method.annotation.PathVariableMethodArgumentResolver;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.lang.reflect.Method;
