@@ -1,26 +1,19 @@
 /*
- * #%L
- * BroadleafCommerce Common Libraries
- * %%
- * Copyright (C) 2009 - 2017 Broadleaf Commerce
- * %%
- * Licensed under the Broadleaf Fair Use License Agreement, Version 1.0
- * (the "Fair Use License" located  at http://license.broadleafcommerce.org/fair_use_license-1.0.txt)
- * unless the restrictions on use therein are violated and require payment to Broadleaf in which case
- * the Broadleaf End User License Agreement (EULA), Version 1.1
- * (the "Commercial License" located at http://license.broadleafcommerce.org/commercial_license-1.1.txt)
- * shall apply.
+ * #%L BroadleafCommerce Common Libraries %% Copyright (C) 2009 - 2017 Broadleaf Commerce %%
+ * Licensed under the Broadleaf Fair Use License Agreement, Version 1.0 (the "Fair Use License"
+ * located at http://license.broadleafcommerce.org/fair_use_license-1.0.txt) unless the restrictions
+ * on use therein are violated and require payment to Broadleaf in which case the Broadleaf End User
+ * License Agreement (EULA), Version 1.1 (the "Commercial License" located at
+ * http://license.broadleafcommerce.org/commercial_license-1.1.txt) shall apply.
  * 
- * Alternatively, the Commercial License may be replaced with a mutually agreed upon license (the "Custom License")
- * between you and Broadleaf Commerce. You may not use this file except in compliance with the applicable license.
- * #L%
+ * Alternatively, the Commercial License may be replaced with a mutually agreed upon license (the
+ * "Custom License") between you and Broadleaf Commerce. You may not use this file except in
+ * compliance with the applicable license. #L%
  */
 package org.broadleafcommerce.frameworkmapping;
 
-import org.broadleafcommerce.frameworkmapping.annotation.EnableAllFrameworkControllers;
-import org.broadleafcommerce.frameworkmapping.annotation.EnableFrameworkControllers;
-import org.broadleafcommerce.frameworkmapping.annotation.EnableFrameworkRestControllers;
 import org.broadleafcommerce.frameworkmapping.annotation.FrameworkController;
+import org.broadleafcommerce.frameworkmapping.annotation.FrameworkControllerScan;
 import org.broadleafcommerce.frameworkmapping.annotation.FrameworkMapping;
 import org.broadleafcommerce.frameworkmapping.annotation.FrameworkRestController;
 import org.springframework.core.Ordered;
@@ -36,17 +29,18 @@ import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;
 
 /**
- * HandlerMapping to find and map {@link FrameworkMapping}s inside {@link FrameworkController} and {@link
- * FrameworkRestController} classes.
+ * HandlerMapping to find and map {@link FrameworkMapping}s inside {@link FrameworkController} and
+ * {@link FrameworkRestController} classes.
  * <p>
- * When framework controllers are enabled with {@link EnableAllFrameworkControllers}, {@link
- * EnableFrameworkControllers}, or {@link EnableFrameworkRestControllers} and a class is annotated with {@link
- * FrameworkController} or {@link FrameworkRestController} then this class will add {@link FrameworkMapping}s found
- * within the class to handler mappings. This class has a lower priority than the default {@link
- * org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping} so when a request comes in,
- * {@link org.springframework.web.bind.annotation.RequestMapping}s located inside a class annotated with {@link
- * org.springframework.stereotype.Controller} or {@link org.springframework.web.bind.annotation.RestController} will
- * have a higher priority and be found before {@link FrameworkMapping}s found within a {@link FrameworkController} or
+ * When framework controllers are enabled with {@link FrameworkControllerScan}, and a class is
+ * annotated with {@link FrameworkController} or {@link FrameworkRestController} then this class
+ * will add {@link FrameworkMapping}s found within the class to handler mappings. This class has a
+ * lower priority than the default
+ * {@link org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping} so
+ * when a request comes in, {@link org.springframework.web.bind.annotation.RequestMapping}s located
+ * inside a class annotated with {@link org.springframework.stereotype.Controller} or
+ * {@link org.springframework.web.bind.annotation.RestController} will have a higher priority and be
+ * found before {@link FrameworkMapping}s found within a {@link FrameworkController} or
  * {@link FrameworkRestController}.
  * <p>
  * The site handler mappings in play in order of precedence from highest to lowest are:
@@ -63,9 +57,7 @@ import java.lang.reflect.Method;
  * </ol>
  *
  * @author Philip Baggett (pbaggett)
- * @see EnableAllFrameworkControllers
- * @see EnableFrameworkControllers
- * @see EnableFrameworkRestControllers
+ * @see FrameworkControllerScan
  * @see FrameworkController
  * @see FrameworkRestController
  * @see FrameworkMapping
@@ -74,7 +66,7 @@ import java.lang.reflect.Method;
 @Component
 public class FrameworkControllerHandlerMapping extends RequestMappingHandlerMapping {
 
-    public static final int REQUEST_MAPPING_ORDER =  Ordered.LOWEST_PRECEDENCE - 2;
+    public static final int REQUEST_MAPPING_ORDER = Ordered.LOWEST_PRECEDENCE - 2;
 
     public FrameworkControllerHandlerMapping() {
         setOrder(REQUEST_MAPPING_ORDER);
@@ -82,7 +74,8 @@ public class FrameworkControllerHandlerMapping extends RequestMappingHandlerMapp
 
     @Override
     protected boolean isHandler(Class<?> beanType) {
-        return (beanType.getAnnotation(FrameworkController.class) != null) || (beanType.getAnnotation(FrameworkRestController.class) != null);
+        return (beanType.getAnnotation(FrameworkController.class) != null)
+                || (beanType.getAnnotation(FrameworkRestController.class) != null);
     }
 
     @Override
@@ -106,10 +99,14 @@ public class FrameworkControllerHandlerMapping extends RequestMappingHandlerMapp
             return null;
         }
         frameworkMapping = AnnotationUtils.synthesizeAnnotation(frameworkMapping, null);
-        return (frameworkMapping != null ? createRequestMappingInfo(convertFrameworkMappingToRequestMapping(frameworkMapping), null) : null);
+        return (frameworkMapping != null
+                ? createRequestMappingInfo(
+                        convertFrameworkMappingToRequestMapping(frameworkMapping), null)
+                : null);
     }
 
-    private RequestMapping convertFrameworkMappingToRequestMapping(final FrameworkMapping frameworkMapping) {
+    private RequestMapping convertFrameworkMappingToRequestMapping(
+            final FrameworkMapping frameworkMapping) {
         return new RequestMapping() {
             @Override
             public String name() {
