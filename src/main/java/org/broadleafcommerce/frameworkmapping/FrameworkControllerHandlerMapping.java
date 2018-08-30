@@ -5,7 +5,7 @@
  * on use therein are violated and require payment to Broadleaf in which case the Broadleaf End User
  * License Agreement (EULA), Version 1.1 (the "Commercial License" located at
  * http://license.broadleafcommerce.org/commercial_license-1.1.txt) shall apply.
- * 
+ *
  * Alternatively, the Commercial License may be replaced with a mutually agreed upon license (the
  * "Custom License") between you and Broadleaf Commerce. You may not use this file except in
  * compliance with the applicable license. #L%
@@ -18,7 +18,6 @@ import org.broadleafcommerce.frameworkmapping.annotation.FrameworkMapping;
 import org.broadleafcommerce.frameworkmapping.annotation.FrameworkRestController;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.AnnotationUtils;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
@@ -63,7 +62,6 @@ import java.lang.reflect.Method;
  * @see FrameworkMapping
  * @since 5.2
  */
-@Component
 public class FrameworkControllerHandlerMapping extends RequestMappingHandlerMapping {
 
     public static final int REQUEST_MAPPING_ORDER = Ordered.LOWEST_PRECEDENCE - 2;
