@@ -15,12 +15,9 @@ import org.springframework.context.annotation.Configuration;
  * @author Phillip Verheyden (phillipuniverse)
  */
 @Configuration
-@AutoConfigureBefore(DispatcherServletAutoConfiguration.class)
-@ConditionalOnWebApplication(type = Type.SERVLET)
 public class FrameworkMappingAutoConfiguration {
 
     @Bean
-    @ConditionalOnMissingBean
     public FrameworkControllerHandlerMapping frameworkControllerHandlerMapping() {
         return new FrameworkControllerHandlerMapping();
     }
