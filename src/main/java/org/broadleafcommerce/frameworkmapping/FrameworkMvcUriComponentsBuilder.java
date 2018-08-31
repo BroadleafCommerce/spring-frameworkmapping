@@ -114,7 +114,6 @@ import javax.servlet.http.HttpServletRequest;
  * @author Sam Brannen
  * @author Philip Baggett (pbaggett)
  * @see MvcUriComponentsBuilder
- * @since 5.2
  */
 public class FrameworkMvcUriComponentsBuilder {
 

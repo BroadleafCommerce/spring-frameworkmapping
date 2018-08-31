@@ -1,6 +1,5 @@
 package org.broadleafcommerce.frameworkmapping.annotation;
 
-
 import org.springframework.core.annotation.AliasFor;
 import org.springframework.web.bind.annotation.RequestMethod;
 import java.lang.annotation.Documented;
@@ -10,26 +9,25 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Annotation for mapping HTTP {@code GET} requests onto specific handler
+ * Annotation for mapping HTTP {@code DELETE} requests onto specific handler
  * methods.
  *
- * <p>Specifically, {@code @FrameworkGetMapping} is a <em>composed annotation</em> that
- * acts as a shortcut for {@code @FrameworkMapping(method = RequestMethod.GET)}.
- *
+ * <p>Specifically, {@code @FrameworkDeleteMapping} is a <em>composed annotation</em> that
+ * acts as a shortcut for {@code @FrameworkMapping(method = RequestMethod.DELETE)}.
  *
  * @author Samarth Dhruva (samarthd)
+ * @see FrameworkGetMapping
  * @see FrameworkPostMapping
  * @see FrameworkPutMapping
- * @see FrameworkDeleteMapping
  * @see FrameworkPatchMapping
  * @see FrameworkMapping
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@FrameworkMapping(method = RequestMethod.GET)
-public @interface FrameworkGetMapping {
-    
+@FrameworkMapping(method = RequestMethod.DELETE)
+public @interface FrameworkDeleteMapping {
+
     /**
      * Alias for {@link FrameworkMapping#name}.
      */
@@ -71,4 +69,5 @@ public @interface FrameworkGetMapping {
      */
     @AliasFor(annotation = FrameworkMapping.class)
     String[] produces() default {};
+
 }

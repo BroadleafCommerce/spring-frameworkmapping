@@ -1,6 +1,10 @@
 package org.broadleafcommerce.frameworkmapping;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -15,6 +19,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.context.annotation.Import;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -53,6 +58,41 @@ public class EnabledFrameworkMappingTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string("frameworkConvenienceGet"));
     }
+
+    @Test
+    public void testFrameworkConveniencePostAnnotationWorks() throws Exception {
+        mockMvc.perform(post("/framework-convenience-post")
+                        .content("requestBody")
+                        .contentType(MediaType.TEXT_PLAIN))
+                .andExpect(status().isOk())
+                .andExpect(content().string("frameworkConveniencePost, requestBody: requestBody"));
+    }
+
+    @Test
+    public void testFrameworkConveniencePutAnnotationWorks() throws Exception {
+        mockMvc.perform(put("/framework-convenience-put")
+                        .content("requestBody")
+                        .contentType(MediaType.TEXT_PLAIN))
+                .andExpect(status().isOk())
+                .andExpect(content().string("frameworkConveniencePut, requestBody: requestBody"));
+    }
+
+    @Test
+    public void testFrameworkConvenienceDeleteAnnotationWorks() throws Exception {
+        mockMvc.perform(delete("/framework-convenience-delete"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("frameworkConvenienceDelete"));
+    }
+
+    @Test
+    public void testFrameworkConveniencePatchAnnotationWorks() throws Exception {
+        mockMvc.perform(patch("/framework-convenience-patch")
+                        .content("requestBody")
+                        .contentType(MediaType.TEXT_PLAIN))
+                .andExpect(status().isOk())
+                .andExpect(content().string("frameworkConveniencePatch, requestBody: requestBody"));
+    }
+
 
     @Test
     public void testOverrideGetMappingWorks() throws Exception {

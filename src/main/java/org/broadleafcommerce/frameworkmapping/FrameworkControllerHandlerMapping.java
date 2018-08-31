@@ -61,7 +61,6 @@ import java.lang.reflect.Method;
  * @see FrameworkController
  * @see FrameworkRestController
  * @see FrameworkMapping
- * @since 5.2
  */
 public class FrameworkControllerHandlerMapping extends RequestMappingHandlerMapping {
 

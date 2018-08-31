@@ -39,7 +39,11 @@ import java.lang.annotation.Target;
  * @see RequestMapping
  * @see FrameworkController
  * @see FrameworkRestController
- * @since 5.2
+ * @see FrameworkGetMapping
+ * @see FrameworkPostMapping
+ * @see FrameworkPutMapping
+ * @see FrameworkDeleteMapping
+ * @see FrameworkPatchMapping
  */
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
