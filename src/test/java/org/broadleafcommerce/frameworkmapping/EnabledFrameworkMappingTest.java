@@ -48,6 +48,13 @@ public class EnabledFrameworkMappingTest {
     }
 
     @Test
+    public void testFrameworkConvenienceGetAnnotationWorks() throws Exception {
+        mockMvc.perform(get("/framework-convenience-get"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("frameworkConvenienceGet"));
+    }
+
+    @Test
     public void testOverrideGetMappingWorks() throws Exception {
         mockMvc.perform(get("/overridden-get"))
                 .andExpect(status().isOk())

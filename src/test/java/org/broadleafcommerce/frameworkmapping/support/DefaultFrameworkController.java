@@ -1,5 +1,6 @@
 package org.broadleafcommerce.frameworkmapping.support;
 
+import org.broadleafcommerce.frameworkmapping.annotation.FrameworkGetMapping;
 import org.broadleafcommerce.frameworkmapping.annotation.FrameworkMapping;
 import org.broadleafcommerce.frameworkmapping.annotation.FrameworkRestController;
 import org.springframework.context.annotation.Scope;
@@ -26,4 +27,10 @@ public class DefaultFrameworkController {
     public String toBeOverriddenGet() {
         return "frameworkControllerGetResponse";
     }
+
+    @FrameworkGetMapping(path = "/framework-convenience-get")
+    public String convenienceGetMapping() {
+        return "frameworkConvenienceGet";
+    }
+
 }
