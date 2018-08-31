@@ -17,6 +17,7 @@ import org.broadleafcommerce.frameworkmapping.annotation.FrameworkControllerScan
 import org.broadleafcommerce.frameworkmapping.annotation.FrameworkMapping;
 import org.broadleafcommerce.frameworkmapping.annotation.FrameworkRestController;
 import org.springframework.core.Ordered;
+import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -72,8 +73,10 @@ public class FrameworkControllerHandlerMapping extends RequestMappingHandlerMapp
 
     @Override
     protected boolean isHandler(Class<?> beanType) {
-        return (beanType.getAnnotation(FrameworkController.class) != null)
-                || (beanType.getAnnotation(FrameworkRestController.class) != null);
+
+        // AnnotatedElementUtils enables annotation checking to work with Spring proxies
+        return AnnotatedElementUtils.hasAnnotation(beanType, FrameworkController.class)
+                || AnnotatedElementUtils.hasAnnotation(beanType, FrameworkRestController.class);
     }
 
     @Override
