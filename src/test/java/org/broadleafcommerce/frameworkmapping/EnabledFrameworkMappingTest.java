@@ -41,6 +41,13 @@ public class EnabledFrameworkMappingTest {
     }
 
     @Test
+    public void testFrameworkOnlyGetMappingNoProxyWorks() throws Exception {
+        mockMvc.perform(get("/framework-only-get-noproxy"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("frameworkControllerOnlyGetResponseNoProxy"));
+    }
+
+    @Test
     public void testOverrideGetMappingWorks() throws Exception {
         mockMvc.perform(get("/overridden-get"))
                 .andExpect(status().isOk())
