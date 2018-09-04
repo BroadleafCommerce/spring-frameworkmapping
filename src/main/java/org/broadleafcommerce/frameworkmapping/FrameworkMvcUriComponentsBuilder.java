@@ -43,6 +43,7 @@ import org.springframework.core.DefaultParameterNameDiscoverer;
 import org.springframework.core.MethodIntrospector;
 import org.springframework.core.MethodParameter;
 import org.springframework.core.ParameterNameDiscoverer;
+import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.core.annotation.SynthesizingMethodParameter;
 import org.springframework.lang.Nullable;
 import org.springframework.objenesis.ObjenesisException;
@@ -495,8 +496,11 @@ public class FrameworkMvcUriComponentsBuilder {
 
         String[] paths;
 
-        FrameworkMapping frameworkMapping = controllerType.getAnnotation(FrameworkMapping.class);
-        RequestMapping requestMapping = controllerType.getAnnotation(RequestMapping.class);
+
+        FrameworkMapping frameworkMapping =
+                AnnotatedElementUtils.findMergedAnnotation(controllerType, FrameworkMapping.class);
+        RequestMapping requestMapping =
+                AnnotatedElementUtils.findMergedAnnotation(controllerType, RequestMapping.class);
 
         if (frameworkMapping != null) {
             paths = frameworkMapping.path();
