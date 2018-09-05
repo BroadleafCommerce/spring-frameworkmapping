@@ -74,8 +74,7 @@ public class FrameworkControllerHandlerMapping extends RequestMappingHandlerMapp
     protected boolean isHandler(Class<?> beanType) {
 
         // AnnotatedElementUtils enables annotation checking to work with Spring proxies
-        return AnnotatedElementUtils.hasAnnotation(beanType, FrameworkController.class)
-                || AnnotatedElementUtils.hasAnnotation(beanType, FrameworkRestController.class);
+        return AnnotatedElementUtils.hasAnnotation(beanType, FrameworkController.class);
     }
 
     @Override
