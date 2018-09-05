@@ -2,7 +2,9 @@ package org.broadleafcommerce.frameworkmapping.annotation;
 
 import org.broadleafcommerce.frameworkmapping.FrameworkControllerHandlerMapping;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.TypeExcludeFilter;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.FilterType;
 import org.springframework.core.annotation.AliasFor;
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -86,5 +88,5 @@ public @interface FrameworkControllerScan {
      * @see ComponentScan.Filter
      */
     @AliasFor(annotation = ComponentScan.class, attribute = "excludeFilters")
-    ComponentScan.Filter[] excludeFilters() default {};
+    ComponentScan.Filter[] excludeFilters() default {@ComponentScan.Filter(type = FilterType.CUSTOM, classes = TypeExcludeFilter.class)};
 }

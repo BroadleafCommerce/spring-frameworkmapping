@@ -527,8 +527,8 @@ public class FrameworkMvcUriComponentsBuilder {
 
         String[] paths;
 
-        FrameworkMapping frameworkMapping = method.getAnnotation(FrameworkMapping.class);
-        RequestMapping requestMapping = method.getAnnotation(RequestMapping.class);
+        FrameworkMapping frameworkMapping = AnnotatedElementUtils.findMergedAnnotation(method, FrameworkMapping.class);
+        RequestMapping requestMapping = AnnotatedElementUtils.findMergedAnnotation(method, RequestMapping.class);
 
         if (frameworkMapping != null) {
             paths = frameworkMapping.path();
