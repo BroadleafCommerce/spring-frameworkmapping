@@ -6,6 +6,7 @@ import org.springframework.boot.context.TypeExcludeFilter;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.core.annotation.AliasFor;
+
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -29,17 +30,17 @@ import java.lang.annotation.Target;
  * annotations that compose {@link ComponentScan} such as {@link SpringBootApplication} as they will
  * conflict when Spring performs annotation composition.</b> Instead, you can create a nested class
  * in your {@link SpringBootApplication} class like this:
- * 
+ *
  * <pre>
  * {@code @literal @SpringBootApplication public class MyApplication {
  *
  * @literal @FrameworkControllerScan(basePackages = "com.mypackage") public static class EnableBroadleafRestControllers {}
  *
  * public static void main(String[] args) { SpringApplication.run(MyApplication.class, args); } } }
- * 
+ *
  * @author Samarth Dhruva (samarthd)
  * @author Philip Baggett (pbaggett)
- * 
+ *
  * @see FrameworkRestController
  * @see FrameworkController
  * @see org.broadleafcommerce.frameworkmapping.FrameworkControllerHandlerMapping
@@ -47,6 +48,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
+// TODO: convert this to a Registrar, most similar is org.springframework.integration.config.IntegrationComponentScanRegistrar
 @ComponentScan(useDefaultFilters = false)
 public @interface FrameworkControllerScan {
 
