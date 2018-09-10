@@ -17,7 +17,7 @@ import java.lang.annotation.Target;
  * <p>
  * By default, scan the locations specified in {@link #value()} or {@link #basePackages()} or
  * {@link #basePackageClasses()} for {@link FrameworkRestController} and {@link FrameworkController}
- * so that their {@link FrameworkMapping}s will get included in
+ * so that their {@link FrameworkMapping FrameworkMappings} will get included in
  * {@link FrameworkControllerHandlerMapping} to provide default implementations of web endpoints.
  * <p>
  * If there is no need to scan for both {@link FrameworkController} and
@@ -32,12 +32,15 @@ import java.lang.annotation.Target;
  * in your {@link SpringBootApplication} class like this:
  *
  * <pre>
- * {@code @literal @SpringBootApplication public class MyApplication {
+ * {@code
+ * @SpringBootApplication public class MyApplication {
  *
- * @literal @FrameworkControllerScan(basePackages = "com.mypackage") public static class EnableBroadleafRestControllers {}
+ *     @FrameworkControllerScan(basePackages = "com.mypackage.packagewithcontrollers") public static class EnableBroadleafControllers {}
  *
- * public static void main(String[] args) { SpringApplication.run(MyApplication.class, args); } } }
+ *     public static void main(String[] args) { SpringApplication.run(MyApplication.class, args); }
  *
+ * }}
+ * 
  * @author Samarth Dhruva (samarthd)
  * @author Philip Baggett (pbaggett)
  *
@@ -62,7 +65,7 @@ public @interface FrameworkControllerScan {
     Class<?>[] basePackageClasses() default {};
 
     /**
-     * A set of {@link ComponentScan.Filter}s that describe which type of framework controllers to
+     * A set of {@link ComponentScan.Filter ComponentScan.Filters} that describe which type of framework controllers to
      * look for.
      *
      * By default, scans for both {@link FrameworkRestController FrameworkRestControllers} and
@@ -77,7 +80,7 @@ public @interface FrameworkControllerScan {
             @ComponentScan.Filter({FrameworkController.class})};
 
     /**
-     * A set of {@link ComponentScan.Filter}s that describe classes to exclude from component
+     * A set of {@link ComponentScan.Filter ComponentScan.Filters} that describe classes to exclude from component
      * scanning.
      * <p>
      * This is most useful when you want to enable some framework controllers but exclude others.

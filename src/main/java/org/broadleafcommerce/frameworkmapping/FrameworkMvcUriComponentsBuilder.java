@@ -80,7 +80,7 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * This class has been copied from spring-webmvc:4.3.7-RELEASE in order to provide URI building
+ * This class has been copied from spring-webmvc:5.0.8-RELEASE in order to provide URI building
  * functionality for {@link FrameworkMapping} annotations. Since this class isn't extensible due to
  * heavy usage of {@code private} we had to copy and modify the whole class. Spring version updates
  * should seek to take in changes from {@link MvcUriComponentsBuilder} into this class.

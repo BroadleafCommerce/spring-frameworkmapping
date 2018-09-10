@@ -18,8 +18,10 @@
 package org.broadleafcommerce.frameworkmapping.annotation;
 
 import org.springframework.core.annotation.AliasFor;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -33,8 +35,8 @@ import java.lang.annotation.Target;
  * <p>
  * This reasoning for this annotation instead of just using {@link RequestMapping} is that when framework controllers
  * haven't been enabled and a framework controller is extended by a class annotated with {@link
- * org.springframework.stereotype.Controller} or {@link org.springframework.web.bind.annotation.RestController} then the
- * undesired {@link RequestMapping}s will get picked up once again due to Spring's annotation inheritance mechanics.
+ * Controller} or {@link RestController} then the
+ * undesired {@link RequestMapping RequestMappings} will get picked up once again due to Spring's annotation inheritance mechanics.
  *
  * @see RequestMapping
  * @see FrameworkController

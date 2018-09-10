@@ -14,6 +14,7 @@ package org.broadleafcommerce.frameworkmapping.annotation;
 
 import org.broadleafcommerce.frameworkmapping.FrameworkControllerHandlerMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 import java.lang.annotation.Documented;
@@ -28,9 +29,9 @@ import java.lang.annotation.Target;
  * This means that if {@link FrameworkControllerScan} is included in the application configuration
  * (and {@link FrameworkRestController} is in its {@link FrameworkControllerScan#includeFilters()}),
  * then the classes annotated with this will be component scanned and included in the application
- * context. The {@link FrameworkMapping}s in these classes will be added to handler mappings with a
- * lower priority than {@link org.springframework.web.bind.annotation.RequestMapping}s found within
- * a class annotated with {@link org.springframework.web.bind.annotation.RestController}. This
+ * context. The {@link FrameworkMapping FrameworkMappings} in these classes will be added to handler mappings with a
+ * lower priority than {@link org.springframework.web.bind.annotation.RequestMapping RequestMappings} found within
+ * a class annotated with {@link RestController}. This
  * priority is achieved through {@link FrameworkControllerHandlerMapping} having a higher order
  * value than {@link RequestMappingHandlerMapping}.
  * <p>
@@ -43,18 +44,11 @@ import java.lang.annotation.Target;
  * <li>{@link RequestMappingHandlerMapping}</li>
  * <li>{@link FrameworkControllerHandlerMapping}</li>
  * </ol>
- * <p>
- * The admin handler mappings in play in order of precedence from highest to lowest are:
- * <ol>
- * <li>{@link AdminRequestMappingHandlerMapping}</li>
- * <li>{@link FrameworkControllerHandlerMapping}</li>
- * <li>{@link AdminControllerHandlerMapping}</li>
- * </ol>
+
  *
  * @author Philip Baggett (pbaggett)
  * @see FrameworkMapping
  * @see FrameworkControllerScan
- * @since 5.2
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)

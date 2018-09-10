@@ -19,8 +19,10 @@ import org.broadleafcommerce.frameworkmapping.annotation.FrameworkRestController
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.core.annotation.AnnotationUtils;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
@@ -29,31 +31,24 @@ import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;
 
 /**
- * HandlerMapping to find and map {@link FrameworkMapping}s inside {@link FrameworkController} and
+ * HandlerMapping to find and map {@link FrameworkMapping FrameworkMappings} inside {@link FrameworkController} and
  * {@link FrameworkRestController} classes.
  * <p>
  * When framework controllers are enabled with {@link FrameworkControllerScan}, and a class is
- * annotated with {@link FrameworkController} or {@link FrameworkRestController} then this class
- * will add {@link FrameworkMapping}s found within the class to handler mappings. This class has a
+ * annotated with {@link FrameworkController} or {@link FrameworkRestController}, then this class
+ * will add {@link FrameworkMapping FrameworkMappings} found within the class to handler mappings. This class has a
  * lower priority than the default
  * {@link org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping} so
- * when a request comes in, {@link org.springframework.web.bind.annotation.RequestMapping}s located
- * inside a class annotated with {@link org.springframework.stereotype.Controller} or
- * {@link org.springframework.web.bind.annotation.RestController} will have a higher priority and be
- * found before {@link FrameworkMapping}s found within a {@link FrameworkController} or
+ * when a request comes in, {@link org.springframework.web.bind.annotation.RequestMapping RequestMappings} located
+ * inside a class annotated with {@link Controller} or
+ * {@link RestController} will have a higher priority and be
+ * found before {@link FrameworkMapping FrameworkMappings} found within a {@link FrameworkController} or
  * {@link FrameworkRestController}.
  * <p>
  * The site handler mappings in play in order of precedence from highest to lowest are:
  * <ol>
  * <li>{@link RequestMappingHandlerMapping}</li>
  * <li>{@link FrameworkControllerHandlerMapping}</li>
- * </ol>
- * <p>
- * The admin handler mappings in play in order of precedence from highest to lowest are:
- * <ol>
- * <li>{@link AdminRequestMappingHandlerMapping}</li>
- * <li>{@link FrameworkControllerHandlerMapping}</li>
- * <li>{@link AdminControllerHandlerMapping}</li>
  * </ol>
  *
  * @author Philip Baggett (pbaggett)
