@@ -32,14 +32,18 @@ import java.lang.annotation.Target;
  * in your {@link SpringBootApplication} class like this:
  *
  * <pre>
- * {@code
- * @SpringBootApplication public class MyApplication {
+ * {@code @SpringBootApplication}
+ * public class MyApplication {
  *
- *     @FrameworkControllerScan(basePackages = "com.mypackage.packagewithcontrollers") public static class EnableBroadleafControllers {}
+ *     {@code @FrameworkControllerScan(basePackages = "com.mypackage.packagewithcontrollers")}
+ *     static class EnableBroadleafControllers {}
  *
- *     public static void main(String[] args) { SpringApplication.run(MyApplication.class, args); }
+ *     public static void main(String[] args) {
+ *         SpringApplication.run(MyApplication.class, args);
+ *     }
  *
  * }}
+ * </pre>
  * 
  * @author Samarth Dhruva (samarthd)
  * @author Philip Baggett (pbaggett)
@@ -51,7 +55,6 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-// TODO: convert this to a Registrar, most similar is org.springframework.integration.config.IntegrationComponentScanRegistrar
 @ComponentScan(useDefaultFilters = false)
 public @interface FrameworkControllerScan {
 

@@ -27,10 +27,10 @@ import java.lang.annotation.Target;
  * <p>
  * This means that if {@link FrameworkControllerScan} is included in the application configuration
  * (and {@link FrameworkController} is in its {@link FrameworkControllerScan#includeFilters()}),
- * then the classes annotated with this will be scanned and included in the
- * application context. The {@link FrameworkMapping FrameworkMappings} in these classes will be added to handler mappings with a
- * lower priority than {@link org.springframework.web.bind.annotation.RequestMapping RequestMappings} found within
- * a class annotated with {@link Controller}. This priority is
+ * then the classes annotated with this will be scanned and included in the application context. The
+ * {@link FrameworkMapping FrameworkMappings} in these classes will be added to handler mappings
+ * with a lower priority than {@link org.springframework.web.bind.annotation.RequestMapping
+ * RequestMappings} found within a class annotated with {@link Controller}. This priority is
  * achieved through {@link FrameworkControllerHandlerMapping} having a higher order value than
  * {@link RequestMappingHandlerMapping}.
  * <p>
@@ -47,6 +47,7 @@ import java.lang.annotation.Target;
  * This concept was adapted from {@code @FrameworkEndpoint} from Spring Security OAuth 2.
  *
  * @author Philip Baggett (pbaggett)
+ * 
  * @see FrameworkMapping
  * @see FrameworkControllerScan
  */
