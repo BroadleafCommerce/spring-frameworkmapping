@@ -87,7 +87,9 @@ public class FrameworkControllerHandlerMapping extends RequestMappingHandlerMapp
     }
 
     private RequestMappingInfo createRequestMappingInfo(AnnotatedElement element) {
+        // TODO: modify this to work with proxies but not look at super classes
         FrameworkMapping frameworkMapping = AnnotatedElementUtils.findMergedAnnotation(element, FrameworkMapping.class);
+
         // necessary to avoid NullPointerException in AnnotationUtils.synthesizeAnnotation()
         if (frameworkMapping == null) {
             return null;
