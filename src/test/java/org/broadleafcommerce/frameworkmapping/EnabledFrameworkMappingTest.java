@@ -17,16 +17,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.FilterType;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
 
-@WebMvcTest(includeFilters = {@ComponentScan.Filter(classes = FrameworkController.class),
-        @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE,
-                classes = FrameworkControllerHandlerMapping.class)})
+@WebMvcTest(includeFilters = @ComponentScan.Filter(classes = FrameworkController.class))
 @ExtendWith(SpringExtension.class)
 public class EnabledFrameworkMappingTest {
 
@@ -50,6 +47,13 @@ public class EnabledFrameworkMappingTest {
         mockMvc.perform(get("/framework-only-get-noproxy"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("frameworkControllerOnlyGetResponseNoProxy"));
+    }
+
+    @Test
+    public void testFrameworkOnlyProxiedGetMappingWorks() throws Exception {
+        mockMvc.perform(get("/framework-only-get-proxy"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("frameworkControllerOnlyGetResponseProxy"));
     }
 
     @Test
