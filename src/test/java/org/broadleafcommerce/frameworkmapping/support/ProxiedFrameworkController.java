@@ -1,3 +1,6 @@
+/**
+ * 
+ */
 package org.broadleafcommerce.frameworkmapping.support;
 
 import org.broadleafcommerce.frameworkmapping.annotation.FrameworkMapping;
@@ -7,14 +10,16 @@ import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
- * @author Samarth Dhruva (samarthd)
+ * Helps validate that we can read annotations from proxies
+ * 
+ * @author Phillip Verheyden (phillipuniverse)
  */
 @FrameworkRestController
-@Scope(proxyMode = ScopedProxyMode.NO)
-public class DefaultFrameworkControllerNoProxy {
+@Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
+public class ProxiedFrameworkController {
 
-    @FrameworkMapping(path = "/framework-only-get-noproxy", method = RequestMethod.GET)
+    @FrameworkMapping(path = "/framework-only-get-proxy", method = RequestMethod.GET)
     public final String frameworkOnlyGetNoProxy() {
-        return "frameworkControllerOnlyGetResponseNoProxy";
+        return "frameworkControllerOnlyGetResponseProxy";
     }
 }

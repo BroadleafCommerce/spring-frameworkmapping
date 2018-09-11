@@ -7,8 +7,6 @@ import org.broadleafcommerce.frameworkmapping.annotation.FrameworkPatchMapping;
 import org.broadleafcommerce.frameworkmapping.annotation.FrameworkPostMapping;
 import org.broadleafcommerce.frameworkmapping.annotation.FrameworkPutMapping;
 import org.broadleafcommerce.frameworkmapping.annotation.FrameworkRestController;
-import org.springframework.context.annotation.Scope;
-import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,14 +15,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * @author Samarth Dhruva (samarthd)
  */
 @FrameworkRestController
-@Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class DefaultFrameworkController {
 
-    /*
-       This endpoint should not be overridden.
-    */
     @FrameworkMapping(path = "/framework-only-get", method = RequestMethod.GET)
-    public String frameworkOnlyGet() {
+    public final String frameworkOnlyGet() {
         return "frameworkControllerOnlyGetResponse";
     }
 
