@@ -27,15 +27,11 @@ public class DisabledFrameworkMappingTest {
     @Autowired
     MockMvc mockMvc;
 
-
-/*
-    TODO - add these tests back in once subclassing of framework controllers works again.
     @Test
-    public void testFrameworkOnlyGetMappingWorks() throws Exception {
-        // should work as the subclassed controller should have registered the method with itself
+    public void testFrameworkOnlyGetMappingDisabled() throws Exception {
+        // way to register the super method, shouldn't be found
         mockMvc.perform(get("/framework-only-get"))
-                .andExpect(status().isOk())
-                .andExpect(content().string("frameworkControllerOnlyGetResponse"));
+                .andExpect(status().isNotFound());
     }
 
     @Test
@@ -43,7 +39,7 @@ public class DisabledFrameworkMappingTest {
         mockMvc.perform(get("/subclass-extended-get"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("frameworkControllerOnlyGetResponse - Extended"));
-    }*/
+    }
 
     @Test
     public void testOverrideGetMappingStillWorks() throws Exception {

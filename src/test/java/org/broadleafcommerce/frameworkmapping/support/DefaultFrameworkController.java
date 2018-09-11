@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class DefaultFrameworkController {
 
     @FrameworkMapping(path = "/framework-only-get", method = RequestMethod.GET)
-    public final String frameworkOnlyGet() {
+    public String frameworkOnlyGet() {
         return "frameworkControllerOnlyGetResponse";
     }
 

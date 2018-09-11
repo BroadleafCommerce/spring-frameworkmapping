@@ -20,6 +20,7 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.ClassUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,19 +32,18 @@ import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;
 
 /**
- * HandlerMapping to find and map {@link FrameworkMapping FrameworkMappings} inside {@link FrameworkController} and
- * {@link FrameworkRestController} classes.
+ * HandlerMapping to find and map {@link FrameworkMapping FrameworkMappings} inside
+ * {@link FrameworkController} and {@link FrameworkRestController} classes.
  * <p>
  * When framework controllers are enabled with {@link FrameworkControllerScan}, and a class is
  * annotated with {@link FrameworkController} or {@link FrameworkRestController}, then this class
- * will add {@link FrameworkMapping FrameworkMappings} found within the class to handler mappings. This class has a
- * lower priority than the default
+ * will add {@link FrameworkMapping FrameworkMappings} found within the class to handler mappings.
+ * This class has a lower priority than the default
  * {@link org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping} so
- * when a request comes in, {@link org.springframework.web.bind.annotation.RequestMapping RequestMappings} located
- * inside a class annotated with {@link Controller} or
- * {@link RestController} will have a higher priority and be
- * found before {@link FrameworkMapping FrameworkMappings} found within a {@link FrameworkController} or
- * {@link FrameworkRestController}.
+ * when a request comes in, {@link org.springframework.web.bind.annotation.RequestMapping
+ * RequestMappings} located inside a class annotated with {@link Controller} or
+ * {@link RestController} will have a higher priority and be found before {@link FrameworkMapping
+ * FrameworkMappings} found within a {@link FrameworkController} or {@link FrameworkRestController}.
  * <p>
  * The site handler mappings in play in order of precedence from highest to lowest are:
  * <ol>
@@ -65,12 +65,35 @@ public class FrameworkMappingHandlerMapping extends RequestMappingHandlerMapping
         setOrder(REQUEST_MAPPING_ORDER);
     }
 
+    /**
+     * See AopUtils and ClassUtils. We want to generally prevent traversal up of super classes for
+     * determninig if beans fit within this handler mapping. However, if the controller itself is
+     * proxied (which can happen with @PreAuthorize @Transaction or other annotations on controller
+     * methods) then the "real" class is actually "super class" of the type passed in to this
+     * method. This util ensures that we always get the real bean type from the CGLib proxy type
+     * passed in here
+     * 
+     * @see AOPUtils
+     * @see ClassUtils
+     * @see AnnotationUtils
+     * @see AnnotatedElementUtils
+     */
     @Override
     protected boolean isHandler(Class<?> beanType) {
+        Class<?> actualBeanType =
+                ClassUtils.isCglibProxyClass(beanType) ? ClassUtils.getUserClass(beanType)
+                        : beanType;
 
-        // AnnotatedElementUtils enables annotation checking to work with Spring proxies
-        return AnnotatedElementUtils.hasAnnotation(beanType, FrameworkController.class)
-                || AnnotatedElementUtils.hasAnnotation(beanType, FrameworkMapping.class);
+        // This explicitly searches for the annotation on the current element and any
+        // meta-annotations.
+        // This intentionally _does not_ look at any super classes to detect the annotation. The
+        // explicit cast is here to prevent using the findAnnotation method that takes in a Class<?>
+        // and searches up into all super classes and interfaces
+        return AnnotationUtils.findAnnotation((AnnotatedElement) actualBeanType,
+                FrameworkController.class) != null
+                || AnnotationUtils.findAnnotation((AnnotatedElement) actualBeanType,
+                        FrameworkMapping.class) != null;
+
     }
 
     @Override
@@ -88,8 +111,8 @@ public class FrameworkMappingHandlerMapping extends RequestMappingHandlerMapping
     }
 
     private RequestMappingInfo createFrameworkRequestMappingInfo(AnnotatedElement element) {
-        // TODO: modify this to work with proxies but not look at super classes
-        FrameworkMapping frameworkMapping = AnnotatedElementUtils.findMergedAnnotation(element, FrameworkMapping.class);
+        FrameworkMapping frameworkMapping =
+                AnnotatedElementUtils.findMergedAnnotation(element, FrameworkMapping.class);
 
         // necessary to avoid NullPointerException in AnnotationUtils.synthesizeAnnotation()
         if (frameworkMapping == null) {

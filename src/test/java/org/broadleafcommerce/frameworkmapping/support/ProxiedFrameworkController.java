@@ -18,8 +18,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class ProxiedFrameworkController {
 
+    /**
+     * Should not be extended
+     */
     @FrameworkMapping(path = "/framework-only-get-proxy", method = RequestMethod.GET)
-    public final String frameworkOnlyGetNoProxy() {
+    public String frameworkOnlyGetNoProxy() {
         return "frameworkControllerOnlyGetResponseProxy";
     }
 }

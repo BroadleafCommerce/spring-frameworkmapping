@@ -2,13 +2,14 @@ package org.broadleafcommerce.frameworkmapping.support;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
-// TODO re-enable this once subclassing of framework controllers works again
-//@RestController
+@RestController
 public class SubclassedCustomController extends DefaultFrameworkController {
 
+    @Override
     @RequestMapping(path = "/subclass-extended-get", method = RequestMethod.GET)
-    public String extendedFrameworkOnlyGet() {
+    public String frameworkOnlyGet() {
         return super.frameworkOnlyGet() + " - Extended";
     }
 }

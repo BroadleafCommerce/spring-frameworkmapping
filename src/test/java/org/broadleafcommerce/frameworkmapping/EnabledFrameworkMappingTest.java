@@ -112,15 +112,11 @@ public class EnabledFrameworkMappingTest {
                 .andExpect(content().string("customControllerOnlyGetResponse"));
     }
 
-/*
-    TODO - Subclassing framework controllers when they're ENABLED does NOT work after introducing AnnotatedElementUtils in FrameworkControllerHandlerMapping
-    TODO - Find a way to make the annotations work on Spring proxies while also allowing subclassed framework controllers to work
     @Test
     public void testExtendedEndpointWorks() throws Exception {
         mockMvc.perform(get("/subclass-extended-get"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("frameworkControllerOnlyGetResponse - Extended"));
     }
-*/
 
 }
