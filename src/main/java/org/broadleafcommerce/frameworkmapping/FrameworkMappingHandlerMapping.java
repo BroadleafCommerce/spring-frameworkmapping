@@ -48,7 +48,7 @@ import java.lang.reflect.Method;
  * The site handler mappings in play in order of precedence from highest to lowest are:
  * <ol>
  * <li>{@link RequestMappingHandlerMapping}</li>
- * <li>{@link FrameworkControllerHandlerMapping}</li>
+ * <li>{@link FrameworkMappingHandlerMapping}</li>
  * </ol>
  *
  * @author Philip Baggett (pbaggett)
@@ -57,11 +57,11 @@ import java.lang.reflect.Method;
  * @see FrameworkRestController
  * @see FrameworkMapping
  */
-public class FrameworkControllerHandlerMapping extends RequestMappingHandlerMapping {
+public class FrameworkMappingHandlerMapping extends RequestMappingHandlerMapping {
 
     public static final int REQUEST_MAPPING_ORDER = Ordered.LOWEST_PRECEDENCE - 2;
 
-    public FrameworkControllerHandlerMapping() {
+    public FrameworkMappingHandlerMapping() {
         setOrder(REQUEST_MAPPING_ORDER);
     }
 
@@ -69,15 +69,16 @@ public class FrameworkControllerHandlerMapping extends RequestMappingHandlerMapp
     protected boolean isHandler(Class<?> beanType) {
 
         // AnnotatedElementUtils enables annotation checking to work with Spring proxies
-        return AnnotatedElementUtils.hasAnnotation(beanType, FrameworkController.class);
+        return AnnotatedElementUtils.hasAnnotation(beanType, FrameworkController.class)
+                || AnnotatedElementUtils.hasAnnotation(beanType, FrameworkMapping.class);
     }
 
     @Override
     protected RequestMappingInfo getMappingForMethod(Method method, Class<?> handlerType) {
 
-        RequestMappingInfo requestMappingInfo = createRequestMappingInfo(method);
+        RequestMappingInfo requestMappingInfo = createFrameworkRequestMappingInfo(method);
         if (requestMappingInfo != null) {
-            RequestMappingInfo typeInfo = createRequestMappingInfo(handlerType);
+            RequestMappingInfo typeInfo = createFrameworkRequestMappingInfo(handlerType);
             if (typeInfo != null) {
                 requestMappingInfo = typeInfo.combine(requestMappingInfo);
             }
@@ -86,7 +87,7 @@ public class FrameworkControllerHandlerMapping extends RequestMappingHandlerMapp
         return requestMappingInfo;
     }
 
-    private RequestMappingInfo createRequestMappingInfo(AnnotatedElement element) {
+    private RequestMappingInfo createFrameworkRequestMappingInfo(AnnotatedElement element) {
         // TODO: modify this to work with proxies but not look at super classes
         FrameworkMapping frameworkMapping = AnnotatedElementUtils.findMergedAnnotation(element, FrameworkMapping.class);
 

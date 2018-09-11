@@ -12,7 +12,7 @@
  */
 package org.broadleafcommerce.frameworkmapping.annotation;
 
-import org.broadleafcommerce.frameworkmapping.FrameworkControllerHandlerMapping;
+import org.broadleafcommerce.frameworkmapping.FrameworkMappingHandlerMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
@@ -32,7 +32,7 @@ import java.lang.annotation.Target;
  * context. The {@link FrameworkMapping FrameworkMappings} in these classes will be added to handler mappings with a
  * lower priority than {@link org.springframework.web.bind.annotation.RequestMapping RequestMappings} found within
  * a class annotated with {@link RestController}. This
- * priority is achieved through {@link FrameworkControllerHandlerMapping} having a higher order
+ * priority is achieved through {@link FrameworkMappingHandlerMapping} having a higher order
  * value than {@link RequestMappingHandlerMapping}.
  * <p>
  * The intention is that you are able to specify RESTful controllers and mappings within a framework
@@ -42,7 +42,7 @@ import java.lang.annotation.Target;
  * The site handler mappings in play in order of precedence from highest to lowest are:
  * <ol>
  * <li>{@link RequestMappingHandlerMapping}</li>
- * <li>{@link FrameworkControllerHandlerMapping}</li>
+ * <li>{@link FrameworkMappingHandlerMapping}</li>
  * </ol>
 
  *

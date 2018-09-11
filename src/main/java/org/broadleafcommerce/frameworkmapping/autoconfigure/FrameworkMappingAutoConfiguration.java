@@ -1,6 +1,6 @@
 package org.broadleafcommerce.frameworkmapping.autoconfigure;
 
-import org.broadleafcommerce.frameworkmapping.FrameworkControllerHandlerMapping;
+import org.broadleafcommerce.frameworkmapping.FrameworkMappingHandlerMapping;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
@@ -21,7 +21,7 @@ public class FrameworkMappingAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public FrameworkControllerHandlerMapping frameworkControllerHandlerMapping() {
-        return new FrameworkControllerHandlerMapping();
+    public FrameworkMappingHandlerMapping frameworkControllerHandlerMapping() {
+        return new FrameworkMappingHandlerMapping();
     }
 }

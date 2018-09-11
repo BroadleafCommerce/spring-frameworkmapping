@@ -12,7 +12,7 @@
  */
 package org.broadleafcommerce.frameworkmapping.annotation;
 
-import org.broadleafcommerce.frameworkmapping.FrameworkControllerHandlerMapping;
+import org.broadleafcommerce.frameworkmapping.FrameworkMappingHandlerMapping;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
@@ -31,7 +31,7 @@ import java.lang.annotation.Target;
  * {@link FrameworkMapping FrameworkMappings} in these classes will be added to handler mappings
  * with a lower priority than {@link org.springframework.web.bind.annotation.RequestMapping
  * RequestMappings} found within a class annotated with {@link Controller}. This priority is
- * achieved through {@link FrameworkControllerHandlerMapping} having a higher order value than
+ * achieved through {@link FrameworkMappingHandlerMapping} having a higher order value than
  * {@link RequestMappingHandlerMapping}.
  * <p>
  * The intention is that you are able to specify MVC controllers and mappings within a framework
@@ -41,7 +41,7 @@ import java.lang.annotation.Target;
  * The site handler mappings in play in order of precedence from highest to lowest are:
  * <ol>
  * <li>{@link RequestMappingHandlerMapping}</li>
- * <li>{@link FrameworkControllerHandlerMapping}</li>
+ * <li>{@link FrameworkMappingHandlerMapping}</li>
  * </ol>
  * <p>
  * This concept was adapted from {@code @FrameworkEndpoint} from Spring Security OAuth 2.

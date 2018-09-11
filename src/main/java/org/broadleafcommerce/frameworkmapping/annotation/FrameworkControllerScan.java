@@ -1,6 +1,6 @@
 package org.broadleafcommerce.frameworkmapping.annotation;
 
-import org.broadleafcommerce.frameworkmapping.FrameworkControllerHandlerMapping;
+import org.broadleafcommerce.frameworkmapping.FrameworkMappingHandlerMapping;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.TypeExcludeFilter;
 import org.springframework.context.annotation.ComponentScan;
@@ -18,7 +18,7 @@ import java.lang.annotation.Target;
  * By default, scan the locations specified in {@link #value()} or {@link #basePackages()} or
  * {@link #basePackageClasses()} for {@link FrameworkRestController} and {@link FrameworkController}
  * so that their {@link FrameworkMapping FrameworkMappings} will get included in
- * {@link FrameworkControllerHandlerMapping} to provide default implementations of web endpoints.
+ * {@link FrameworkMappingHandlerMapping} to provide default implementations of web endpoints.
  * <p>
  * If there is no need to scan for both {@link FrameworkController} and
  * {@link FrameworkRestController}, supply only one of them to {@link #includeFilters()}.
@@ -50,7 +50,7 @@ import java.lang.annotation.Target;
  *
  * @see FrameworkRestController
  * @see FrameworkController
- * @see org.broadleafcommerce.frameworkmapping.FrameworkControllerHandlerMapping
+ * @see org.broadleafcommerce.frameworkmapping.FrameworkMappingHandlerMapping
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
