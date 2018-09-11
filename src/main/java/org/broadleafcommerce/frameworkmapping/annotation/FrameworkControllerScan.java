@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.TypeExcludeFilter;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
+import org.springframework.context.annotation.Import;
 import org.springframework.core.annotation.AliasFor;
 
 import java.lang.annotation.Documented;
@@ -51,18 +52,18 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-// TODO: convert this to a Registrar, most similar is org.springframework.integration.config.IntegrationComponentScanRegistrar
-@ComponentScan(useDefaultFilters = false)
+@Import(FrameworkControllerScanRegistrar.class)
 public @interface FrameworkControllerScan {
 
-    @AliasFor(annotation = ComponentScan.class, attribute = "value")
+    @AliasFor("basePackages")
     String[] value() default {};
 
-    @AliasFor(annotation = ComponentScan.class, attribute = "basePackages")
+    @AliasFor("value")
     String[] basePackages() default {};
 
-    @AliasFor(annotation = ComponentScan.class, attribute = "basePackageClasses")
     Class<?>[] basePackageClasses() default {};
+
+    boolean useDefaultFilters() default true;
 
     /**
      * A set of {@link ComponentScan.Filter ComponentScan.Filters} that describe which type of framework controllers to
@@ -74,10 +75,7 @@ public @interface FrameworkControllerScan {
      * @see ComponentScan#includeFilters()
      * @see ComponentScan.Filter
      */
-    @AliasFor(annotation = ComponentScan.class, attribute = "includeFilters")
-    ComponentScan.Filter[] includeFilters() default {
-            @ComponentScan.Filter({FrameworkRestController.class}),
-            @ComponentScan.Filter({FrameworkController.class})};
+    ComponentScan.Filter[] includeFilters() default {};
 
     /**
      * A set of {@link ComponentScan.Filter ComponentScan.Filters} that describe classes to exclude from component
@@ -92,6 +90,5 @@ public @interface FrameworkControllerScan {
      * @see ComponentScan#excludeFilters()
      * @see ComponentScan.Filter
      */
-    @AliasFor(annotation = ComponentScan.class, attribute = "excludeFilters")
     ComponentScan.Filter[] excludeFilters() default {@ComponentScan.Filter(type = FilterType.CUSTOM, classes = TypeExcludeFilter.class)};
 }
