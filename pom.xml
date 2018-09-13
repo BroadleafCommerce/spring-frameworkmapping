@@ -270,6 +270,13 @@
             <artifactId>spring-boot-autoconfigure-processor</artifactId>
             <optional>true</optional>
         </dependency>
+        <!-- Removes compiler warnings on Spring's @NonNull usage of JSR305 within this project -->
+        <dependency>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>jsr305</artifactId>
+            <scope>provided</scope>
+            <version>3.0.2</version>
+        </dependency>
 
         <!-- Tests -->
         <dependency>
