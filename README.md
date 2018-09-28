@@ -2,6 +2,106 @@
 
 This library is a support library for frameworks that want to ship a set of out-of-the-box Spring request mappings but still allow their users to turn endpoints off, override them, extend them, etc.
 
+## Usage
+
+Use `@FrameworkController` and the corresponding `@FrameworkMapping` just like you would an `@Controller` and `@RequestMapping`. Example:
+
+```java
+@FrameworkController
+public void DefaultedController {
+
+    @RequestMapping("/test")
+    public String getAString() {
+        return "path/to/template";
+    }
+}
+```
+
+Then activate the controllers just like you would an `@ComponentScan`, but with `@FrameworkControllerScan`
+
+```java
+@Configuration
+@FrameworkControllerScan(basePackageClasses = DefaultedController.class)
+public void ControllerConfig {
+}
+```
+
+## Convenience Annotations
+
+Convenience annotations also exist for specific request methods:
+
+```java
+@FrameworkController
+@RequestMapping("/test")
+public void DefaultedController {
+
+    @GetMapping("/get")
+    public @ResponseBody String getAString() {
+        return "Success!";
+    }
+}
+```
+
+Or as a correlary to `@RestController`:
+
+```java
+@FrameworkRestController
+@RequestMapping("/test")
+public void DefaultedController {
+
+    @GetMapping("/get")
+    public @ResponseBody String getAString() {
+        return "Success!";
+    }
+}
+```
+
+## Test Support
+
+Since the use case for this library is for distributing other libraries, make sure that you have a `spring.factories` entry that corresponds to the `@AutoConfigureWebMvc` test slice:
+
+```ini
+org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureWebMvc=\
+    com.mycompany.mylibrary.package.MyControllerConfig
+```
+
+However, if you use `@WebMvcTest`, since it is not a default Spring filter, the controllers will not be available in the applicationContext.
+
+If you want to enable a single controller, use the `controllers` attribute of `@WebMvcTest`:
+
+```java
+@WebMvcTest(controllers = AnnotatedFrameworkControllerClass.class)
+```
+
+If you want to enable a group of `@FrameworkMapping`-annotated controllers use `includeFilters`:
+
+```java
+@WebMvcTest(includeFilters = @Filter(FrameworkController.class))
+@FrameworkControllerScan
+@ExtendWith(SpringExtension.class)
+public class ControllerTest {
+
+    @Autowired
+    MockMvc mockMvc;
+
+    @Test
+    public void controllersWork() throws Exception {
+        mockMvc.perform(get("/test"))
+                .andExpect(status().isOk());
+    }
+
+    @FrameworkController
+    public class TestController {
+
+        @GetMapping("/test")
+        public String test() {
+            return "Success!";
+        }
+    }
+
+}
+```
+
 ## Framework Controllers
 
 ### Overview
