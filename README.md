@@ -26,6 +26,19 @@ public void ControllerConfig {
 }
 ```
 
+This scan cannot be in your `@SpringBootApplication` class, otherwise it will overwrite your global `@ComponentScan`. If you are using this in your main `@SpringBootApplication`, then use it like so:
+
+```java
+@SpringBootApplication
+public class MyApplication {
+
+    @Configuration
+    @FrameworkControllerScan(basePackageClasses = MyApplication.class)
+    public void FrameworkControllerConfiguration {
+    }
+}
+```
+
 ## Convenience Annotations
 
 Convenience annotations also exist for specific request methods:
