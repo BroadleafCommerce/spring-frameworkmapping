@@ -83,7 +83,37 @@ However, if you use `@WebMvcTest`, since it is not a default Spring filter, the 
 If you want to enable a single controller, use the `controllers` attribute of `@WebMvcTest`:
 
 ```java
-@WebMvcTest(controllers = AnnotatedFrameworkControllerClass.class)
+@WebMvcTest(controllers = TestController.class)
+@ExtendWith(SpringExtension.class)
+public class ControllerTest {
+
+    @Configuration
+    class Config {
+        @Bean
+        public TestController testController() {
+            return new TestController();
+        }
+    }
+
+    @FrameworkController
+    public class TestController {
+
+        @GetMapping("/test")
+        public String test() {
+            return "Success!";
+        }
+    }
+        
+    @Autowired
+    MockMvc mockMvc;
+
+    @Test
+    public void controllersWork() throws Exception {
+        mockMvc.perform(get("/test"))
+            .andExpect(status().isOk());
+    }
+
+}
 ```
 
 If you want to enable a group of `@FrameworkMapping`-annotated controllers use `includeFilters`:
@@ -103,17 +133,19 @@ public class ControllerTest {
                 .andExpect(status().isOk());
     }
 
-    @FrameworkController
-    public class TestController {
+}
 
-        @GetMapping("/test")
-        public String test() {
-            return "Success!";
-        }
-    }
+@FrameworkController
+public class TestController {
 
+  @GetMapping("/test")
+  public String test() {
+  return "Success!";
+  }
 }
 ```
+
+> Note the at this time, `@FrameworkController`s that are _scanned_ using `@FrameworkControllerScan` within a test class will not be picked up. This is because of the exclusions within `TestTypeExcludeFilter`. Remediations are to either move your `@FrameworkController` to a class outside of a test class, or manually create it with `@Bean`.
 
 ## Framework Controllers
 
