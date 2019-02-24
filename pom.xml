@@ -58,8 +58,13 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
+                    <!-- Required to run JUnit 5 tests -->
+                    <!-- IMPORTANT: once this updates to the 3.0 line, we can remove the disableClassPathURLCheck arg line settings -->
+                    <!-- See https://stackoverflow.com/questions/53010200/maven-surefire-could-not-find-forkedbooter-class/53016532 -->
+                    <configuration>
+                        <argLine>-Djdk.net.URLClassPath.disableClassPathURLCheck=true</argLine>
+                    </configuration>
                     <dependencies>
-                        <!-- Required to run JUnit 5 tests -->
                         <dependency>
                             <groupId>org.junit.platform</groupId>
                             <artifactId>junit-platform-surefire-provider</artifactId>
@@ -178,6 +183,7 @@
                             <artifactId>maven-surefire-plugin</artifactId>
                             <configuration>
                                 <argLine>
+                                    -Djdk.net.URLClassPath.disableClassPathURLCheck=true
                                     @{surefire.argLine}
                                 </argLine>
                             </configuration>
@@ -187,6 +193,7 @@
                             <artifactId>maven-failsafe-plugin</artifactId>
                             <configuration>
                                 <argLine>
+                                    -Djdk.net.URLClassPath.disableClassPathURLCheck=true
                                     @{failsafe.argLine}
                                 </argLine>
                             </configuration>
