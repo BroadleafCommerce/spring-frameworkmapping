@@ -77,6 +77,12 @@
                 </plugin>
             </plugins>
         </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
     </build>
     <profiles>
         <profile>
@@ -138,10 +144,12 @@
         </profile>
         <profile>
             <!-- IMPORTANT -->
-            <!-- This relies on a gpg.passphrase property set either at build time or in a settings.xml. If within
-              a <profile><properties> section, that <profile><id> must match _exactly_ to this id for gpg.passphrase to be picked up.
-              You know you have messed up if, on signing, GPG signing fails with this message:
-                 "gpg: signing failed: Inappropriate ioctl for device" -->
+            <!-- This relies on a gpg.passphrase property set either at build time or in a settings.xml.
+                If within
+                a <profile><properties> section, that <profile><id> must match _exactly_ to this id for
+                gpg.passphrase to be picked up.
+                You know you have messed up if, on signing, GPG signing fails with this message:
+                "gpg: signing failed: Inappropriate ioctl for device" -->
             <id>sign-artifacts</id>
             <activation>
                 <property>
