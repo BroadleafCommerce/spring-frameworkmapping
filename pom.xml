@@ -1,6 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -10,7 +8,7 @@
     </parent>
     <groupId>org.broadleafcommerce</groupId>
     <artifactId>spring-frameworkmapping</artifactId>
-    <version>0.1.0-SNAPSHOT</version>
+    <version>0.1.0-GA</version>
     <name>Spring Frameworkmapping</name>
     <description>A library for building overridable Spring Web endpoints</description>
     <url>https://github.com/BroadleafCommerce/spring-frameworkmapping</url>
@@ -33,7 +31,7 @@
         <connection>scm:git:git@github.com:BroadleafCommerce/spring-frameworkmappikng.git</connection>
         <developerConnection>scm:git:git@github.com:BroadleafCommerce/spring-frameworkmapping.git</developerConnection>
         <url>https://github.com/BroadleafCommerce/spring-frameworkmapping</url>
-        <tag>HEAD</tag>
+        <tag>spring-frameworkmapping-0.1.0-GA</tag>
     </scm>
     <distributionManagement>
         <snapshotRepository>
