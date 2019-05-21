@@ -40,13 +40,9 @@
             <id>mavencentral-snapshots</id>
             <url>https://oss.sonatype.org/content/repositories/snapshots</url>
         </snapshotRepository>
-        <!--<repository>-->
-            <!--<id>mavencentral-releases</id>-->
-            <!--<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>-->
-        <!--</repository>-->
         <repository>
-            <id>broadleaf-microservices</id>
-            <url>https://repository.broadleafcommerce.com/repository/microservices/</url>
+            <id>mavencentral-releases</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
     </distributionManagement>
     <properties>
@@ -70,6 +66,17 @@
                     <artifactId>maven-release-plugin</artifactId>
                     <version>2.5.3</version>
                 </plugin>
+                <plugin>
+                    <groupId>org.sonatype.plugins</groupId>
+                    <artifactId>nexus-staging-maven-plugin</artifactId>
+                    <version>1.6.8</version>
+                    <extensions>true</extensions>
+                    <configuration>
+                        <serverId>mavencentral-releases</serverId>
+                        <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                        <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                    </configuration>
+                </plugin>
             </plugins>
         </pluginManagement>
     </build>
@@ -91,7 +98,7 @@
                             <execution>
                                 <id>attach-sources</id>
                                 <goals>
-                                    <goal>jar</goal>
+                                    <goal>jar-no-fork</goal>
                                 </goals>
                             </execution>
                         </executions>
@@ -132,7 +139,12 @@
             </build>
         </profile>
         <profile>
-            <id>release-sign-artifacts</id>
+            <!-- IMPORTANT -->
+            <!-- This relies on a gpg.passphrase property set either at build time or in a settings.xml. If within
+              a <profile><properties> section, that <profile><id> must match _exactly_ to this id for gpg.passphrase to be picked up.
+              You know you have messed up if, on signing, GPG signing fails with this message:
+                 "gpg: signing failed: Inappropriate ioctl for device" -->
+            <id>sign-artifacts</id>
             <activation>
                 <property>
                     <name>performRelease</name>
@@ -144,7 +156,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
-                        <version>1.4</version>
+                        <version>1.6</version>
                         <executions>
                             <execution>
                                 <id>sign-artifacts</id>
@@ -154,6 +166,10 @@
                                 </goals>
                                 <configuration>
                                     <keyname>info@broadleafcommerce.org</keyname>
+                                    <gpgArguments>
+                                        <arg>--pinentry-mode</arg>
+                                        <arg>loopback</arg>
+                                    </gpgArguments>
                                 </configuration>
                             </execution>
                         </executions>
