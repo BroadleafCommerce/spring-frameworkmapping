@@ -1,7 +1,9 @@
 package org.broadleafcommerce.frameworkmapping;
 
 import static org.broadleafcommerce.frameworkmapping.FrameworkMvcUriComponentsBuilder.fromController;
+import static org.broadleafcommerce.frameworkmapping.FrameworkMvcUriComponentsBuilder.fromMethodCall;
 import static org.broadleafcommerce.frameworkmapping.FrameworkMvcUriComponentsBuilder.fromMethodName;
+import static org.broadleafcommerce.frameworkmapping.FrameworkMvcUriComponentsBuilder.on;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -54,8 +56,9 @@ public class FrameworkMvcUriComponentsBuilderTest {
     @Test
     public void testFromMethodNameWithClassPrefix() throws Exception {
         mockMvc.perform(get(fromMethodName(FrameworkControllerWithClassLevelMapping.class,
-                                           "getMappingWithMethodUri")
-                .build().toUriString())).andExpect(status().isOk())
+                "getMappingWithMethodUri")
+                        .build().toUriString()))
+                .andExpect(status().isOk())
                 .andExpect(content().string("classPrefixMethodUri"));
     }
 
@@ -64,6 +67,17 @@ public class FrameworkMvcUriComponentsBuilderTest {
     public void testFromMethodName() throws Exception {
         mockMvc.perform(get(fromMethodName(DefaultFrameworkController.class, "frameworkOnlyGet")
                 .build().toUriString())).andExpect(status().isOk())
+                .andExpect(content().string("frameworkControllerOnlyGetResponse"));
+
+    }
+
+    @Test
+    public void testFromMethodCall() throws Exception {
+        mockMvc.perform(get(
+                fromMethodCall(
+                        on(DefaultFrameworkController.class).frameworkOnlyGet()).build()
+                                .toUriString()))
+                .andExpect(status().isOk())
                 .andExpect(content().string("frameworkControllerOnlyGetResponse"));
 
     }

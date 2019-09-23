@@ -8,6 +8,7 @@ import org.broadleafcommerce.frameworkmapping.annotation.FrameworkPostMapping;
 import org.broadleafcommerce.frameworkmapping.annotation.FrameworkPutMapping;
 import org.broadleafcommerce.frameworkmapping.annotation.FrameworkRestController;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -18,10 +19,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class DefaultFrameworkController {
 
     @FrameworkMapping(path = "/framework-only-get", method = RequestMethod.GET)
-    public String frameworkOnlyGet() {
-        return "frameworkControllerOnlyGetResponse";
+    public ResponseEntity<String> frameworkOnlyGet() {
+        return ResponseEntity.ok("frameworkControllerOnlyGetResponse");
     }
-
 
     @FrameworkMapping(path = "/overridden-get", method = RequestMethod.GET)
     public String toBeOverriddenGet() {
