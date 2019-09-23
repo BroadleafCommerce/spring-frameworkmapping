@@ -28,7 +28,7 @@
         </developer>
     </developers>
     <scm>
-        <connection>scm:git:git@github.com:BroadleafCommerce/spring-frameworkmappikng.git</connection>
+        <connection>scm:git:git@github.com:BroadleafCommerce/spring-frameworkmapping.git</connection>
         <developerConnection>scm:git:git@github.com:BroadleafCommerce/spring-frameworkmapping.git</developerConnection>
         <url>https://github.com/BroadleafCommerce/spring-frameworkmapping</url>
         <tag>HEAD</tag>
