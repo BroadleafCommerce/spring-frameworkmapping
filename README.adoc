@@ -239,9 +239,9 @@ public class TestController {
 
 NOTE: `@FrameworkController`s that are _scanned_ using `@FrameworkControllerScan` within a test class will not be picked up. This is because of the exclusions within `TestTypeExcludeFilter`. Remediations are to either move your `@FrameworkController` to a class outside of a test class, or manually create it with `@Bean`
 
-=== Other use Cases
+== Other use Cases
 
-==== Excluding Controllers in a Scan
+=== Excluding Controllers in a Scan
 
 In the event you want to enable framework controllers, but want to exclude particular framework controllers, you can leverage the `excludeFilters` property of the `@FrameworkControllerScan`. For example:
 
@@ -254,7 +254,7 @@ In the event you want to enable framework controllers, but want to exclude parti
 })
 ----
 
-==== Including a Single Controller
+=== Including a Single Controller
 
 If you only want a small number of framework controllers enabled, it would be easier to declare the ones you want as beans instead of listing a large number of controllers using `excludeFilters`.
 
@@ -279,7 +279,7 @@ Alternatively, you may utilize `includeFilters` of `@FrameworkControllerScan` an
 })
 ----
 
-==== Extending default mappings
+=== Extending default mappings
 
 Or if you want to call super, you could extend the default framework controller as well like so:
 
@@ -296,7 +296,7 @@ public class MyCartController extends DefaultCartController {
 }
 ----
 
-==== Changing a Mapping
+=== Changing a Mapping
 
 If you want to alter the URL for some mapping, you can do so by defining your own mapping and calling super.
 
@@ -330,11 +330,11 @@ public class MyCartController extends DefaultCartController {
 
 Now we've created a new mapping `/cart/retrieve`, but note that `/cart/get` will still be registered.
 
-==== Changing a Mapping and Functionality
+=== Changing a Mapping and Functionality
 
 This is achieved by simply applying both patterns above.
 
-==== Removing a Mapping
+=== Removing a Mapping
 
 If you want to remove (disable) particular a `@FrameworkMapping` then you'll need to create a `@RequestMapping` method with the same URL that returns a 404 error.
 
