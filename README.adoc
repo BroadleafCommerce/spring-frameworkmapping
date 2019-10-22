@@ -37,7 +37,27 @@ With both the `@Controller` and `@FrameworkController` active, hitting the `/tes
 
 == Usage
 
-Use `@FrameworkController` and the corresponding `@FrameworkMapping` just like you would an `@Controller` and `@RequestMapping`. Example:
+Add the dependency with Maven:
+
+[source,xml]
+----
+<dependency>
+  <groupId>org.broadleafcommerce</groupId>
+  <artifactId>spring-frameworkmapping</artifactId>
+  <version>$currentversion</version>
+</dependency>
+----
+
+Or Gradle
+
+[source,groovy]
+----
+dependencies {
+  compile 'org.broadleafcommerce:spring-frameworkmapping:$currentversion'
+}
+----
+
+Then use `@FrameworkController` and the corresponding `@FrameworkMapping` just like you would an `@Controller` and `@RequestMapping`. Example:
 
 [source,java]
 ----
@@ -347,3 +367,23 @@ a|`FrameworkControllerHandlerMapping`
 | `FrameworkMvcUriComponentsBuilder`
 | Copied from `MvcUriComponentsBuilder` in order to provide URI building functionality for `@FrameworkMapping` annotations. It replicates the functionality of `MvcUriComponentsBuilder`
 |===
+
+=== Snapshots
+
+Snapshots are deployed to the Maven Central Snapshots repository and is deployed on every commit. Add it to your `<repositories>` like so:
+
+[source,xml]
+----
+<repositories>
+  <repository>
+    <id>mavencentral-snapshots</id>
+     <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+     <snapshots>
+       <enabled>true</enabled>
+     </snapshots>
+     <releases>
+       <enabled>false</enabled>
+     </releases>
+  </repository>
+</repositories>
+----
