@@ -1,0 +1,349 @@
+:toc:
+
+= Spring Frameworkmappings
+
+image::https://maven-badges.herokuapp.com/maven-central/org.broadleafcommerce/spring-frameworkmapping/badge.svg[]
+
+Spring Frameworkmappings is a support library for developers distributing libraries to their users. This enables library developers to distribute overridable Spring MVC request mappings that will not collide with user-defined `@RequestMapping`, allowing for customizability and extensibility..
+
+Here's an example:
+
+[source,java]
+----
+@FrameworkController
+public class LibraryController {
+
+  @ResponseBody
+  @FrameworkGetMapping("/test")
+  public String test() {
+    return "library";
+  }
+}
+...
+...
+...
+@Controller
+public class UserController {
+
+  @ResponseBody
+  @GetMapping("/test")
+  public String test() {
+    return "user";
+  }
+}
+----
+
+With both the `@Controller` and `@FrameworkController` active, hitting the `/test` endpoint will return `user`. But if a corresponding `/test` `@RequestMapping` was _not_ defined, the value returned would be `library`.
+
+== Usage
+
+Use `@FrameworkController` and the corresponding `@FrameworkMapping` just like you would an `@Controller` and `@RequestMapping`. Example:
+
+[source,java]
+----
+@FrameworkController
+public void DefaultedController {
+
+    @FrameworkRequestMapping("/test")
+    public String getAString() {
+        return "path/to/template";
+    }
+}
+----
+
+Then activate the controllers just like you would an `@ComponentScan`, but with `@FrameworkControllerScan`
+
+[source,java]
+----
+@Configuration
+@FrameworkControllerScan(basePackageClasses = DefaultedController.class)
+public void ControllerConfig {
+}
+----
+
+IMPORTANT: `@FrameworkControllerScan` utilizes a composition of `@ComponentScan` and as such cannot be specified alongside a class that is annotated with another `@ComponentScan` or an annotation that is composed of `@ComponentScan` (such as `@SpringBootApplication`). Instead, created a static nested class inside of that `@Configuration` class that instruments the scan
+
+If you do not want to do a scan, you can annotate individual `@Bean` methods:
+
+[source,java]
+----
+@Configuration
+public class LibraryAutoConfiguration {
+
+  @Bean
+  @FrameworkController
+  public DefaultedController defaultController() {
+    return new DefaultedController();
+  }
+}
+----
+
+== Convenience Annotations
+
+Convenience annotations also exist for specific request methods:
+
+[source,java]
+----
+@FrameworkController
+@RequestMapping("/test")
+public void DefaultedController {
+
+    @GetMapping("/get")
+    public @ResponseBody String getAString() {
+        return "Success!";
+    }
+}
+----
+
+Or as a correlary to `@RestController`-, use `@FrameworkRestController`:
+
+[source,java]
+----
+@FrameworkRestController
+@FrameworkRequestMapping("/test")
+public void DefaultedController {
+
+    @FrameworkGetMapping("/get")
+    public @ResponseBody String getAString() {
+        return "Success!";
+    }
+}
+----
+
+== Building URIs
+
+To build a URI
+
+[source,java]
+----
+@FrameworkRestController
+public class DefaultTestController {
+
+  @FrameworkGetMapping("/test/{pathvar}")
+  public ResponseEntity test(@PathVariable("pathvar") String variable) {
+    return ResponseEntity.of("Success!");
+  }
+}
+----
+
+Build a URI with the same sort of patterns of `MvcUriComponentsBuidler`:
+
+[source,java]
+----
+FrameworkMvcUriComponentsBuilder.fromMethodCall(
+    on(DefaultTestController.class).test("value"))
+        .build()
+        .toUri()
+----
+
+== Test Support with `@WebMvcTest`
+
+Since the use case for this library is for distributing other libraries, make sure that you have a `spring.factories` entry that corresponds to the `@AutoConfigureWebMvc` test slice:
+
+[source,ini]
+----
+org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureWebMvc=\
+    com.mycompany.mylibrary.package.MyControllerAutoConfiguration
+----
+
+If you are scanning your framework controllers `@WebMvcTest`, the controller might not be available in your ApplicationContext from the component scan. This needs to be manually enabled in an `@WebMvcTest`.
+
+NOTE: Using manual `@Bean` methods annotated with `@FrameworkController` eliminates this issue
+
+To enable a single controller, use the `controllers` attribute of `@WebMvcTest`:
+
+[source,java]
+----
+@WebMvcTest(controllers = TestController.class)
+@ExtendWith(SpringExtension.class)
+public class ControllerTest {
+
+    @Configuration
+    class Config {
+        @Bean
+        public TestController testController() {
+            return new TestController();
+        }
+    }
+
+    @FrameworkController
+    public class TestController {
+
+        @GetMapping("/test")
+        public String test() {
+            return "Success!";
+        }
+    }
+
+    @Autowired
+    MockMvc mockMvc;
+
+    @Test
+    public void controllersWork() throws Exception {
+        mockMvc.perform(get("/test"))
+            .andExpect(status().isOk());
+    }
+
+}
+----
+
+If you want to enable a group of `@FrameworkMapping`-annotated controllers use `includeFilters`:
+
+[source,java]
+----
+@WebMvcTest(includeFilters = @Filter(FrameworkController.class))
+@FrameworkControllerScan
+@ExtendWith(SpringExtension.class)
+public class ControllerTest {
+
+    @Autowired
+    MockMvc mockMvc;
+
+    @Test
+    public void controllersWork() throws Exception {
+        mockMvc.perform(get("/test"))
+                .andExpect(status().isOk());
+    }
+
+}
+
+@FrameworkController
+public class TestController {
+
+  @GetMapping("/test")
+  public String test() {
+    return "Success!";
+  }
+}
+----
+
+NOTE: `@FrameworkController`s that are _scanned_ using `@FrameworkControllerScan` within a test class will not be picked up. This is because of the exclusions within `TestTypeExcludeFilter`. Remediations are to either move your `@FrameworkController` to a class outside of a test class, or manually create it with `@Bean`
+
+=== Other use Cases
+
+==== Excluding Controllers in a Scan
+
+In the event you want to enable framework controllers, but want to exclude particular framework controllers, you can leverage the `excludeFilters` property of the `@FrameworkControllerScan`. For example:
+
+[source,java]
+----
+@FrameworkControllerScan(basePackages = "com.mypackage.packagewithcontrollers",
+  excludeFilters = {
+    @Filter(value = DefaultCustomerController.class, type = FilterType.ASSIGNABLE_TYPE),
+    @Filter(value = DefaultOrderController.class, type = FilterType.ASSIGNABLE_TYPE)
+})
+----
+
+==== Including a Single Controller
+
+If you only want a small number of framework controllers enabled, it would be easier to declare the ones you want as beans instead of listing a large number of controllers using `excludeFilters`.
+
+For example, you can activate a single framework controller in an `@Configuration` class like so:
+
+[source,java]
+----
+@Bean
+public DefaultCartController defaultCartController() {
+    return new DefaultCartController();
+}
+----
+
+Alternatively, you may utilize `includeFilters` of `@FrameworkControllerScan` and override its value to include just a few controllers:
+
+[source,java]
+----
+@FrameworkControllerScan(basePackages = "com.mypackage.packagewithcontrollers",
+  includeFilters = {
+    @Filter(value = DefaultCustomerController.class, type = FilterType.ASSIGNABLE_TYPE),
+    @Filter(value = DefaultOrderController.class, type = FilterType.ASSIGNABLE_TYPE)
+})
+----
+
+==== Extending default mappings
+
+Or if you want to call super, you could extend the default framework controller as well like so:
+
+[source,java]
+----
+@RestController
+@RequestMapping("/cart")
+public class MyCartController extends DefaultCartController {
+    @RequestMapping(path = "/get", method = RequestMethod.GET)
+    public MyCart getActiveCart() {
+        Cart cart = super.getActiveCart();
+        return doCustomThingsToCart(cart);
+    }
+}
+----
+
+==== Changing a Mapping
+
+If you want to alter the URL for some mapping, you can do so by defining your own mapping and calling super.
+
+For example, given the framework controller:
+
+[source,java]
+----
+@FrameworkRestController
+@FrameworkMapping("/cart")
+public class DefaultCartController {
+    @FrameworkMapping(path = "/get", method = RequestMethod.GET)
+    public Cart getActiveCart() {
+        return cartService.getActiveCart();
+    }
+}
+----
+
+You can change the mapping by extending the framework controller, and calling super with a new mapping:
+
+[source,java]
+----
+@RestController
+@RequestMapping("/cart")
+public class MyCartController extends DefaultCartController {
+    @RequestMapping(path = "/retrieve", method = RequestMethod.GET)
+    public Cart getActiveCart() {
+        return super.getActiveCart();
+    }
+}
+----
+
+Now we've created a new mapping `/cart/retrieve`, but note that `/cart/get` will still be registered.
+
+==== Changing a Mapping and Functionality
+
+This is achieved by simply applying both patterns above.
+
+==== Removing a Mapping
+
+If you want to remove (disable) particular a `@FrameworkMapping` then you'll need to create a `@RequestMapping` method with the same URL that returns a 404 error.
+
+For example, to disable `/cart/get`:
+
+[source,java]
+----
+@RestController
+@RequestMapping("/cart")
+public class MyCartController extends DefaultCartController {
+    @RequestMapping(path = "/get", method = RequestMethod.GET)
+    public ResponseEntity getActiveCart() {
+        return new ResponseEntity(HttpStatus.NOT_FOUND);
+    }
+}
+----
+
+== Appendix
+
+=== Supporting Classes
+
+[cols=2*,options="header"]
+|===
+|Class Name
+|Description
+
+a|`FrameworkControllerHandlerMapping`
+|Component that registers controllers annotated with `@FrameworkController` and `@FrameworkRestController`
+
+| `FrameworkMvcUriComponentsBuilder`
+| Copied from `MvcUriComponentsBuilder` in order to provide URI building functionality for `@FrameworkMapping` annotations. It replicates the functionality of `MvcUriComponentsBuilder`
+|===
