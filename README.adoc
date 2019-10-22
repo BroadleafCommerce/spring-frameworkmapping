@@ -2,7 +2,7 @@
 
 = Spring Frameworkmappings
 
-image::https://maven-badges.herokuapp.com/maven-central/org.broadleafcommerce/spring-frameworkmapping/badge.svg[]
+image::https://maven-badges.herokuapp.com/maven-central/org.broadleafcommerce/spring-frameworkmapping/badge.svg[link="https://maven-badges.herokuapp.com/maven-central/org.broadleafcommerce/spring-frameworkmapping"]
 
 Spring Frameworkmappings is a support library for developers distributing libraries to their users. This enables library developers to distribute overridable Spring MVC request mappings that will not collide with user-defined `@RequestMapping`, allowing for customizability and extensibility. Spring-frameworkmappings is tested for compatibility with Spring 5.0+ and Spring Boot 2.0+ but would likely work on older versions of Spring/Spring Boot.
 
