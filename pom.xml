@@ -8,7 +8,7 @@
     </parent>
     <groupId>org.broadleafcommerce</groupId>
     <artifactId>spring-frameworkmapping</artifactId>
-    <version>0.9.0-GA</version>
+    <version>0.9.1-SNAPSHOT</version>
     <name>Spring Frameworkmapping</name>
     <description>A library for building overridable Spring Web endpoints</description>
     <url>https://github.com/BroadleafCommerce/spring-frameworkmapping</url>
@@ -31,7 +31,7 @@
         <connection>scm:git:git@github.com:BroadleafCommerce/spring-frameworkmapping.git</connection>
         <developerConnection>scm:git:git@github.com:BroadleafCommerce/spring-frameworkmapping.git</developerConnection>
         <url>https://github.com/BroadleafCommerce/spring-frameworkmapping</url>
-        <tag>spring-frameworkmapping-0.9.0-GA</tag>
+        <tag>HEAD</tag>
     </scm>
     <distributionManagement>
         <snapshotRepository>
