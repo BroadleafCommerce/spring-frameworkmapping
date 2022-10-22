@@ -35,8 +35,8 @@
     </scm>
     <distributionManagement>
         <snapshotRepository>
-            <id>mavencentral-snapshots</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+            <id>broadleaf-microservices</id>
+            <url>https://repository.broadleafcommerce.com/repository/microservices/</url>
         </snapshotRepository>
         <repository>
             <id>mavencentral-releases</id>
