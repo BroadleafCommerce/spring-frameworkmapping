@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.broadleafcommerce</groupId>
     <artifactId>spring-frameworkmapping</artifactId>
-    <version>0.9.1-SNAPSHOT</version>
+    <version>${revision}</version>
     <name>Spring Frameworkmapping</name>
     <description>A library for building overridable Spring Web endpoints</description>
     <url>https://github.com/BroadleafCommerce/spring-frameworkmapping</url>
@@ -42,6 +42,7 @@
         </repository>
     </repositories>
     <properties>
+        <revision>0.9.1-SNAPSHOT</revision>
         <java.version>11</java.version>
         <maven.compiler.release>11</maven.compiler.release>
         <resource.delimiter>@</resource.delimiter>
