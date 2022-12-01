@@ -29,11 +29,11 @@ import java.lang.annotation.Target;
  * This means that if {@link FrameworkControllerScan} is included in the application configuration
  * (and {@link FrameworkRestController} is in its {@link FrameworkControllerScan#includeFilters()}),
  * then the classes annotated with this will be component scanned and included in the application
- * context. The {@link FrameworkMapping FrameworkMappings} in these classes will be added to handler mappings with a
- * lower priority than {@link org.springframework.web.bind.annotation.RequestMapping RequestMappings} found within
- * a class annotated with {@link RestController}. This
- * priority is achieved through {@link FrameworkMappingHandlerMapping} having a higher order
- * value than {@link RequestMappingHandlerMapping}.
+ * context. The {@link FrameworkMapping FrameworkMappings} in these classes will be added to handler
+ * mappings with a lower priority than {@link org.springframework.web.bind.annotation.RequestMapping
+ * RequestMappings} found within a class annotated with {@link RestController}. This priority is
+ * achieved through {@link FrameworkMappingHandlerMapping} having a higher order value than
+ * {@link RequestMappingHandlerMapping}.
  * <p>
  * The intention is that you are able to specify RESTful controllers and mappings within a framework
  * module as the default REST endpoints and a client application can essentially override those
@@ -44,8 +44,8 @@ import java.lang.annotation.Target;
  * <li>{@link RequestMappingHandlerMapping}</li>
  * <li>{@link FrameworkMappingHandlerMapping}</li>
  * </ol>
-
  *
+ * 
  * @author Philip Baggett (pbaggett)
  * @see FrameworkMapping
  * @see FrameworkControllerScan

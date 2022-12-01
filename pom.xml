@@ -1,4 +1,6 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -8,7 +10,7 @@
     </parent>
     <groupId>org.broadleafcommerce</groupId>
     <artifactId>spring-frameworkmapping</artifactId>
-    <version>0.9.1-SNAPSHOT</version>
+    <version>${revision}</version>
     <name>Spring Frameworkmapping</name>
     <description>A library for building overridable Spring Web endpoints</description>
     <url>https://github.com/BroadleafCommerce/spring-frameworkmapping</url>
@@ -39,11 +41,20 @@
             <url>https://repository.broadleafcommerce.com/repository/microservices/</url>
         </repository>
     </distributionManagement>
+    <repositories>
+        <repository>
+            <id>broadleaf-microservices</id>
+            <url>https://repository.broadleafcommerce.com/repository/microservices/</url>
+        </repository>
+    </repositories>
     <properties>
+        <revision>0.9.1-SNAPSHOT</revision>
         <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
         <maven.spotless.plugin.version>1.31.3</maven.spotless.plugin.version>
         <maven.spotless.java.formatter.version>4.13.0</maven.spotless.java.formatter.version>
         <shared.codestyle.directory>${project.build.directory}/shared-codestyle-resources</shared.codestyle.directory>
+        <broadleaf.codestyle.version>1.0.1-GA</broadleaf.codestyle.version>
+        <maven.flatten.plugin.version>1.2.7</maven.flatten.plugin.version>
     </properties>
     <build>
         <pluginManagement>
@@ -58,6 +69,30 @@
                     <configuration>
                         <argLine>-Djdk.net.URLClassPath.disableClassPathURLCheck=true</argLine>
                     </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <executions>
+                        <execution>
+                            <id>unpack-shared-codestyle-resources</id>
+                            <goals>
+                                <goal>unpack</goal>
+                            </goals>
+                            <phase>initialize</phase>
+                            <configuration>
+                                <artifactItems>
+                                    <artifact>
+                                        <groupId>com.broadleafcommerce</groupId>
+                                        <artifactId>broadleaf-codestyle-resources</artifactId>
+                                        <version>${broadleaf.codestyle.version}</version>
+                                        <outputDirectory>${shared.codestyle.directory}
+                                        </outputDirectory>
+                                    </artifact>
+                                </artifactItems>
+                            </configuration>
+                        </execution>
+                    </executions>
                 </plugin>
                 <plugin>
                     <groupId>com.diffplug.spotless</groupId>
@@ -127,8 +162,41 @@
                         </formats>
                     </configuration>
                 </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>flatten-maven-plugin</artifactId>
+                    <version>${maven.flatten.plugin.version}</version>
+                    <configuration>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>flatten</id>
+                            <phase>process-resources</phase>
+                            <goals>
+                                <goal>flatten</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>flatten.clean</id>
+                            <phase>clean</phase>
+                            <goals>
+                                <goal>clean</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
             </plugins>
         </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>flatten-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
     </build>
     <profiles>
         <profile>
@@ -245,7 +313,7 @@
                             <artifactId>maven-surefire-plugin</artifactId>
                             <configuration>
                                 <argLine> -Djdk.net.URLClassPath.disableClassPathURLCheck=true
-                                    @{surefire.argLine} 
+                                    @{surefire.argLine}
                                 </argLine>
                             </configuration>
                         </plugin>
@@ -254,7 +322,7 @@
                             <artifactId>maven-failsafe-plugin</artifactId>
                             <configuration>
                                 <argLine> -Djdk.net.URLClassPath.disableClassPathURLCheck=true
-                                    @{failsafe.argLine} 
+                                    @{failsafe.argLine}
                                 </argLine>
                             </configuration>
                         </plugin>

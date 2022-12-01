@@ -30,7 +30,7 @@ public class EnabledFrameworkMappingTest {
     @Configuration
     @Import(ControllerConfig.class)
     @FrameworkControllerScan(basePackages = "org.broadleafcommerce.frameworkmapping.support")
-    static class Config { }
+    static class Config {}
 
     @Autowired
     MockMvc mockMvc;
@@ -66,8 +66,8 @@ public class EnabledFrameworkMappingTest {
     @Test
     public void testFrameworkConveniencePostAnnotationWorks() throws Exception {
         mockMvc.perform(post("/framework-convenience-post")
-                        .content("requestBody")
-                        .contentType(MediaType.TEXT_PLAIN))
+                .content("requestBody")
+                .contentType(MediaType.TEXT_PLAIN))
                 .andExpect(status().isOk())
                 .andExpect(content().string("frameworkConveniencePost, requestBody: requestBody"));
     }
@@ -75,8 +75,8 @@ public class EnabledFrameworkMappingTest {
     @Test
     public void testFrameworkConveniencePutAnnotationWorks() throws Exception {
         mockMvc.perform(put("/framework-convenience-put")
-                        .content("requestBody")
-                        .contentType(MediaType.TEXT_PLAIN))
+                .content("requestBody")
+                .contentType(MediaType.TEXT_PLAIN))
                 .andExpect(status().isOk())
                 .andExpect(content().string("frameworkConveniencePut, requestBody: requestBody"));
     }
@@ -91,8 +91,8 @@ public class EnabledFrameworkMappingTest {
     @Test
     public void testFrameworkConveniencePatchAnnotationWorks() throws Exception {
         mockMvc.perform(patch("/framework-convenience-patch")
-                        .content("requestBody")
-                        .contentType(MediaType.TEXT_PLAIN))
+                .content("requestBody")
+                .contentType(MediaType.TEXT_PLAIN))
                 .andExpect(status().isOk())
                 .andExpect(content().string("frameworkConveniencePatch, requestBody: requestBody"));
     }

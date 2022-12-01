@@ -527,8 +527,10 @@ public class FrameworkMvcUriComponentsBuilder {
 
         String[] paths;
 
-        FrameworkMapping frameworkMapping = AnnotatedElementUtils.findMergedAnnotation(method, FrameworkMapping.class);
-        RequestMapping requestMapping = AnnotatedElementUtils.findMergedAnnotation(method, RequestMapping.class);
+        FrameworkMapping frameworkMapping =
+                AnnotatedElementUtils.findMergedAnnotation(method, FrameworkMapping.class);
+        RequestMapping requestMapping =
+                AnnotatedElementUtils.findMergedAnnotation(method, RequestMapping.class);
 
         if (frameworkMapping != null) {
             paths = frameworkMapping.path();
@@ -927,7 +929,8 @@ public class FrameworkMvcUriComponentsBuilder {
         /**
          * @since 4.2
          */
-        public MethodArgumentBuilder(@Nullable UriComponentsBuilder baseUrl, Class<?> controllerType,
+        public MethodArgumentBuilder(@Nullable UriComponentsBuilder baseUrl,
+                Class<?> controllerType,
                 Method method) {
             Assert.notNull(controllerType, "'controllerType' is required");
             Assert.notNull(method, "'method' is required");

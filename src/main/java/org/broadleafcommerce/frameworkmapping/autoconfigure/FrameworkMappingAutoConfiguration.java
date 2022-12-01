@@ -12,8 +12,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
-import java.util.List;
+
 import java.util.Set;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
@@ -39,7 +40,8 @@ public class FrameworkMappingAutoConfiguration {
      */
     @Bean
     @ConditionalOnMissingBean
-    public WebMvcRegistrations frameworkRequestMappingLenientOverride(FrameworkMappingHandlerMapping frameworkMapping) {
+    public WebMvcRegistrations frameworkRequestMappingLenientOverride(
+            FrameworkMappingHandlerMapping frameworkMapping) {
         return new WebMvcRegistrations() {
             @Override
             public RequestMappingHandlerMapping getRequestMappingHandlerMapping() {

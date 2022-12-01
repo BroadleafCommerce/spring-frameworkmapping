@@ -22,7 +22,7 @@ public class DisabledFrameworkMappingTest {
 
     @Configuration
     @Import(ControllerConfig.class)
-    static class Config { }
+    static class Config {}
 
     @Autowired
     MockMvc mockMvc;

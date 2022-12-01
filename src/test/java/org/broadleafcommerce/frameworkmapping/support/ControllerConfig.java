@@ -16,4 +16,4 @@ import org.springframework.context.annotation.FilterType;
 @TestConfiguration
 @ComponentScan(excludeFilters = {
         @Filter(type = FilterType.CUSTOM, classes = TypeExcludeFilter.class)})
-public class ControllerConfig { }
+public class ControllerConfig {}

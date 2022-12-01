@@ -9,12 +9,12 @@ import org.broadleafcommerce.frameworkmapping.annotation.FrameworkRestController
 public class FrameworkControllerWithClassLevelMapping {
 
     @FrameworkGetMapping("/method-uri")
-    public String getMappingWithMethodUri()  {
+    public String getMappingWithMethodUri() {
         return "classPrefixMethodUri";
     }
 
     @FrameworkGetMapping
-    public String getMappingWithoutMethodUri()  {
+    public String getMappingWithoutMethodUri() {
         return "classPrefixOnly";
     }
 }

@@ -3,6 +3,7 @@ package org.broadleafcommerce.frameworkmapping.annotation;
 
 import org.springframework.core.annotation.AliasFor;
 import org.springframework.web.bind.annotation.RequestMethod;
+
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -10,11 +11,11 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Annotation for mapping HTTP {@code GET} requests onto specific handler
- * methods.
+ * Annotation for mapping HTTP {@code GET} requests onto specific handler methods.
  *
- * <p>Specifically, {@code @FrameworkGetMapping} is a <em>composed annotation</em> that
- * acts as a shortcut for {@code @FrameworkMapping(method = RequestMethod.GET)}.
+ * <p>
+ * Specifically, {@code @FrameworkGetMapping} is a <em>composed annotation</em> that acts as a
+ * shortcut for {@code @FrameworkMapping(method = RequestMethod.GET)}.
  *
  *
  * @author Samarth Dhruva (samarthd)
@@ -29,7 +30,7 @@ import java.lang.annotation.Target;
 @Documented
 @FrameworkMapping(method = RequestMethod.GET)
 public @interface FrameworkGetMapping {
-    
+
     /**
      * Alias for {@link FrameworkMapping#name}.
      */

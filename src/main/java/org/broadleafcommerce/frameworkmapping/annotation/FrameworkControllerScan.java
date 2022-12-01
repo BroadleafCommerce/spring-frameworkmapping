@@ -68,8 +68,8 @@ public @interface FrameworkControllerScan {
     Class<?>[] basePackageClasses() default {};
 
     /**
-     * A set of {@link ComponentScan.Filter ComponentScan.Filters} that describe which type of framework controllers to
-     * look for.
+     * A set of {@link ComponentScan.Filter ComponentScan.Filters} that describe which type of
+     * framework controllers to look for.
      *
      * By default, scans for both {@link FrameworkRestController FrameworkRestControllers} and
      * {@link FrameworkController FrameworkControllers}.
@@ -83,8 +83,8 @@ public @interface FrameworkControllerScan {
             @ComponentScan.Filter({FrameworkController.class})};
 
     /**
-     * A set of {@link ComponentScan.Filter ComponentScan.Filters} that describe classes to exclude from component
-     * scanning.
+     * A set of {@link ComponentScan.Filter ComponentScan.Filters} that describe classes to exclude
+     * from component scanning.
      * <p>
      * This is most useful when you want to enable some framework controllers but exclude others.
      * You can exclude classes annotated with {@link FrameworkController} or
@@ -96,5 +96,6 @@ public @interface FrameworkControllerScan {
      * @see ComponentScan.Filter
      */
     @AliasFor(annotation = ComponentScan.class, attribute = "excludeFilters")
-    ComponentScan.Filter[] excludeFilters() default {@ComponentScan.Filter(type = FilterType.CUSTOM, classes = TypeExcludeFilter.class)};
+    ComponentScan.Filter[] excludeFilters() default {
+            @ComponentScan.Filter(type = FilterType.CUSTOM, classes = TypeExcludeFilter.class)};
 }

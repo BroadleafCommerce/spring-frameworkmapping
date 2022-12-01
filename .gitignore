@@ -21,3 +21,4 @@ bin/
 rebel.xml
 rebel-remote.xml
 *.rebel*
+/.flattened-pom.xml

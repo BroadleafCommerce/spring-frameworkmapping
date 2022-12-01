@@ -35,7 +35,8 @@ public class DefaultFrameworkController {
         return "frameworkConvenienceGet";
     }
 
-    @FrameworkPostMapping(path = "/framework-convenience-post", consumes = MediaType.TEXT_PLAIN_VALUE)
+    @FrameworkPostMapping(path = "/framework-convenience-post",
+            consumes = MediaType.TEXT_PLAIN_VALUE)
     public String conveniencePostMapping(@RequestBody String requestBody) {
         return "frameworkConveniencePost, requestBody: " + requestBody;
     }
@@ -50,7 +51,8 @@ public class DefaultFrameworkController {
         return "frameworkConvenienceDelete";
     }
 
-    @FrameworkPatchMapping(path = "/framework-convenience-patch", consumes = MediaType.TEXT_PLAIN_VALUE)
+    @FrameworkPatchMapping(path = "/framework-convenience-patch",
+            consumes = MediaType.TEXT_PLAIN_VALUE)
     public String conveniencePatchMapping(@RequestBody String requestBody) {
         return "frameworkConveniencePatch, requestBody: " + requestBody;
     }

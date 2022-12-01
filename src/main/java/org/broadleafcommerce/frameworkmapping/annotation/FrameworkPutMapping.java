@@ -2,6 +2,7 @@ package org.broadleafcommerce.frameworkmapping.annotation;
 
 import org.springframework.core.annotation.AliasFor;
 import org.springframework.web.bind.annotation.RequestMethod;
+
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -9,11 +10,11 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Annotation for mapping HTTP {@code PUT} requests onto specific handler
- * methods.
+ * Annotation for mapping HTTP {@code PUT} requests onto specific handler methods.
  *
- * <p>Specifically, {@code @FrameworkPutMapping} is a <em>composed annotation</em> that
- * acts as a shortcut for {@code @FrameworkMapping(method = RequestMethod.PUT)}.
+ * <p>
+ * Specifically, {@code @FrameworkPutMapping} is a <em>composed annotation</em> that acts as a
+ * shortcut for {@code @FrameworkMapping(method = RequestMethod.PUT)}.
  *
  * @author Samarth Dhruva (samarthd)
  * @see FrameworkGetMapping
@@ -68,5 +69,5 @@ public @interface FrameworkPutMapping {
      */
     @AliasFor(annotation = FrameworkMapping.class)
     String[] produces() default {};
-    
+
 }

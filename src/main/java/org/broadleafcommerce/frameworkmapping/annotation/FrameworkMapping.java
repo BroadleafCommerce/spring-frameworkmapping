@@ -1,19 +1,14 @@
 /*
- * #%L
- * BroadleafCommerce Common Libraries
- * %%
- * Copyright (C) 2009 - 2017 Broadleaf Commerce
- * %%
- * Licensed under the Broadleaf Fair Use License Agreement, Version 1.0
- * (the "Fair Use License" located  at http://license.broadleafcommerce.org/fair_use_license-1.0.txt)
- * unless the restrictions on use therein are violated and require payment to Broadleaf in which case
- * the Broadleaf End User License Agreement (EULA), Version 1.1
- * (the "Commercial License" located at http://license.broadleafcommerce.org/commercial_license-1.1.txt)
- * shall apply.
+ * #%L BroadleafCommerce Common Libraries %% Copyright (C) 2009 - 2017 Broadleaf Commerce %%
+ * Licensed under the Broadleaf Fair Use License Agreement, Version 1.0 (the "Fair Use License"
+ * located at http://license.broadleafcommerce.org/fair_use_license-1.0.txt) unless the restrictions
+ * on use therein are violated and require payment to Broadleaf in which case the Broadleaf End User
+ * License Agreement (EULA), Version 1.1 (the "Commercial License" located at
+ * http://license.broadleafcommerce.org/commercial_license-1.1.txt) shall apply.
  * 
- * Alternatively, the Commercial License may be replaced with a mutually agreed upon license (the "Custom License")
- * between you and Broadleaf Commerce. You may not use this file except in compliance with the applicable license.
- * #L%
+ * Alternatively, the Commercial License may be replaced with a mutually agreed upon license (the
+ * "Custom License") between you and Broadleaf Commerce. You may not use this file except in
+ * compliance with the applicable license. #L%
  */
 package org.broadleafcommerce.frameworkmapping.annotation;
 
@@ -30,13 +25,14 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * This annotation behaves exactly like {@link RequestMapping} except it is used inside {@link FrameworkController} and
- * {@link FrameworkRestController} controllers.
+ * This annotation behaves exactly like {@link RequestMapping} except it is used inside
+ * {@link FrameworkController} and {@link FrameworkRestController} controllers.
  * <p>
- * This reasoning for this annotation instead of just using {@link RequestMapping} is that when framework controllers
- * haven't been enabled and a framework controller is extended by a class annotated with {@link
- * Controller} or {@link RestController} then the
- * undesired {@link RequestMapping RequestMappings} will get picked up once again due to Spring's annotation inheritance mechanics.
+ * This reasoning for this annotation instead of just using {@link RequestMapping} is that when
+ * framework controllers haven't been enabled and a framework controller is extended by a class
+ * annotated with {@link Controller} or {@link RestController} then the undesired
+ * {@link RequestMapping RequestMappings} will get picked up once again due to Spring's annotation
+ * inheritance mechanics.
  *
  * @see RequestMapping
  * @see FrameworkController
