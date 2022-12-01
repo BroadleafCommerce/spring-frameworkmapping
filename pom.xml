@@ -10,7 +10,7 @@
     </parent>
     <groupId>org.broadleafcommerce</groupId>
     <artifactId>spring-frameworkmapping</artifactId>
-    <version>${revision}</version>
+    <version>0.9.1-SNAPSHOT</version>
     <name>Spring Frameworkmapping</name>
     <description>A library for building overridable Spring Web endpoints</description>
     <url>https://github.com/BroadleafCommerce/spring-frameworkmapping</url>
@@ -48,7 +48,6 @@
         </repository>
     </repositories>
     <properties>
-        <revision>0.9.1-SNAPSHOT</revision>
         <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
         <maven.spotless.plugin.version>1.31.3</maven.spotless.plugin.version>
         <maven.spotless.java.formatter.version>4.13.0</maven.spotless.java.formatter.version>
