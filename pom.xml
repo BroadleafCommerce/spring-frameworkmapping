@@ -10,7 +10,7 @@
     </parent>
     <groupId>org.broadleafcommerce</groupId>
     <artifactId>spring-frameworkmapping</artifactId>
-    <version>0.9.2-SNAPSHOT</version>
+    <version>0.9.1-SNAPSHOT</version>
     <name>Spring Frameworkmapping</name>
     <description>A library for building overridable Spring Web endpoints</description>
     <url>https://github.com/BroadleafCommerce/spring-frameworkmapping</url>
@@ -168,13 +168,6 @@
                     <configuration>
                     </configuration>
                     <executions>
-                        <execution>
-                            <id>flatten</id>
-                            <phase>process-resources</phase>
-                            <goals>
-                                <goal>flatten</goal>
-                            </goals>
-                        </execution>
                         <execution>
                             <id>flatten.clean</id>
                             <phase>clean</phase>
