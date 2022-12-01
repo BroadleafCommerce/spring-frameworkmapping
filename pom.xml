@@ -41,6 +41,9 @@
     </distributionManagement>
     <properties>
         <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
+        <maven.spotless.plugin.version>1.31.3</maven.spotless.plugin.version>
+        <maven.spotless.java.formatter.version>4.13.0</maven.spotless.java.formatter.version>
+        <shared.codestyle.directory>${project.build.directory}/shared-codestyle-resources</shared.codestyle.directory>
     </properties>
     <build>
         <pluginManagement>
@@ -54,6 +57,74 @@
                     <!-- See https://stackoverflow.com/questions/53010200/maven-surefire-could-not-find-forkedbooter-class/53016532 -->
                     <configuration>
                         <argLine>-Djdk.net.URLClassPath.disableClassPathURLCheck=true</argLine>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>com.diffplug.spotless</groupId>
+                    <artifactId>spotless-maven-plugin</artifactId>
+                    <version>${maven.spotless.plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <id>check</id>
+                            <goals>
+                                <goal>check</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <java>
+                            <eclipse>
+                                <version>${maven.spotless.java.formatter.version}</version>
+                                <file>${shared.codestyle.directory}/eclipse-formatter.xml</file>
+                            </eclipse>
+                            <importOrder>
+                                <file>${shared.codestyle.directory}/broadleaf-java.importorder</file>
+                            </importOrder>
+                            <removeUnusedImports />
+                        </java>
+                        <formats>
+                            <format>
+                                <!-- XML files -->
+                                <includes>
+                                    <include>src/main/**/*.xml</include>
+                                    <include>pom.xml</include>
+                                </includes>
+                                <excludes>
+                                    <exclude>src/main/resources/rebel-remote.xml</exclude>
+                                    <exclude>src/main/resources/rebel.xml</exclude>
+                                    <exclude>**/target/**/pom.xml</exclude>
+                                    <exclude>**/node_modules/**</exclude>
+                                </excludes>
+                                <eclipseWtp>
+                                    <type>XML</type>
+                                    <files>${shared.codestyle.directory}/xml.prefs</files>
+                                </eclipseWtp>
+                                <indent>
+                                    <spaces>true</spaces>
+                                    <spacesPerTab>4</spacesPerTab>
+                                </indent>
+                                <trimTrailingWhitespace />
+                            </format>
+                            <format>
+                                <includes>
+                                    <!-- YAML -->
+                                    <include>src/main/**/*.yml</include>
+                                    <include>src/main/**/*.yaml</include>
+                                    <!-- JS within Java projects -->
+                                    <include>src/main/**/*.js</include>
+                                    <!-- SQL imports -->
+                                    <include>src/main/**/*.sql</include>
+                                </includes>
+                                <excludes>
+                                    <exclude>**/node_modules/**</exclude>
+                                </excludes>
+                                <indent>
+                                    <spaces>true</spaces>
+                                    <spacesPerTab>2</spacesPerTab>
+                                </indent>
+                                <trimTrailingWhitespace />
+                            </format>
+                        </formats>
                     </configuration>
                 </plugin>
             </plugins>
