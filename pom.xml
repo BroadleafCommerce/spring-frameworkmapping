@@ -42,15 +42,15 @@
         </repository>
     </repositories>
     <properties>
-        <revision>0.9.2-SNAPSHOT</revision>
-        <java.version>11</java.version>
-        <maven.compiler.release>11</maven.compiler.release>
+        <revision>2.0.0-SNAPSHOT</revision>
+        <java.version>17</java.version>
+        <maven.compiler.release>17</maven.compiler.release>
         <resource.delimiter>@</resource.delimiter>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <blc.release.train>1.7.6-GA</blc.release.train>
+        <blc.dependencies>2.9999.0-BRANCH-mpm3974-SNAPSHOT</blc.dependencies>
         <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
         <maven.spotless.plugin.version>1.31.3</maven.spotless.plugin.version>
         <maven.spotless.java.formatter.version>4.13.0</maven.spotless.java.formatter.version>
@@ -301,8 +301,8 @@
         <dependencies>
             <dependency>
                 <groupId>com.broadleafcommerce.microservices</groupId>
-                <artifactId>broadleaf-microservices-release-train</artifactId>
-                <version>${blc.release.train}</version>
+                <artifactId>broadleaf-microservices-dependencies</artifactId>
+                <version>${blc.dependencies}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -327,8 +327,8 @@
         </dependency>
         <!-- Non-transitive -->
         <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
             <scope>provided</scope>
         </dependency>
         <!-- Metadata about the auto configuration within this project -->
