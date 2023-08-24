@@ -76,6 +76,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -87,34 +88,6 @@ import org.springframework.web.util.pattern.PathPatternParser;
  * heavy usage of {@code private} we had to copy and modify the whole class. Spring version updates
  * should seek to take in changes from {@link MvcUriComponentsBuilder} into this class.
  *
- * Creates instances of {@link org.springframework.web.util.UriComponentsBuilder}
- * by pointing to {@code @RequestMapping} methods on Spring MVC controllers.
- *
- * <p>There are several groups of methods:
- * <ul>
- * <li>Static {@code fromXxx(...)} methods to prepare links using information
- * from the current request as determined by a call to
- * {@link org.springframework.web.servlet.support.ServletUriComponentsBuilder#fromCurrentServletMapping()}.
- * <li>Static {@code fromXxx(UriComponentsBuilder,...)} methods can be given
- * a baseUrl when operating outside the context of a request.
- * <li>Instance-based {@code withXxx(...)} methods where an instance of
- * MvcUriComponentsBuilder is created with a baseUrl via
- * {@link #relativeTo(org.springframework.web.util.UriComponentsBuilder)}.
- * </ul>
- *
- * <p><strong>Note:</strong> This class uses values from "Forwarded"
- * (<a href="https://tools.ietf.org/html/rfc7239">RFC 7239</a>),
- * "X-Forwarded-Host", "X-Forwarded-Port", and "X-Forwarded-Proto" headers,
- * if present, in order to reflect the client-originated protocol and address.
- * Consider using the {@code ForwardedHeaderFilter} in order to choose from a
- * central place whether to extract and use, or to discard such headers.
- * See the Spring Framework reference for more on this filter.
- *
- * @author Oliver Gierke
- * @author Rossen Stoyanchev
- * @author Sam Brannen
- * @author Juergen Hoeller
- * @since 4.0
  * @see MvcUriComponentsBuilder
  */
 public class FrameworkMvcUriComponentsBuilder {
@@ -138,6 +111,14 @@ public class FrameworkMvcUriComponentsBuilder {
     static {
         defaultUriComponentsContributor = new CompositeUriComponentsContributor(
                 new PathVariableMethodArgumentResolver(), new RequestParamMethodArgumentResolver(false));
+    }
+
+    public static final Method isHandler = ReflectionUtils.findMethod(RequestMappingHandlerMapping.class, "isHandler", Class.class);
+    public static final Method getPathPrefix = ReflectionUtils.findMethod(RequestMappingHandlerMapping.class, "getPathPrefix", Class.class);
+
+    static {
+        ReflectionUtils.makeAccessible(getPathPrefix);
+        ReflectionUtils.makeAccessible(isHandler);
     }
 
     private final UriComponentsBuilder baseUrl;
@@ -586,13 +567,7 @@ public class FrameworkMvcUriComponentsBuilder {
         if (wac != null) {
             Map<String, RequestMappingHandlerMapping> map = wac.getBeansOfType(RequestMappingHandlerMapping.class);
             for (RequestMappingHandlerMapping mapping : map.values()) {
-                Method isHandler = ReflectionUtils.findMethod(RequestMappingHandlerMapping.class, "isHandler", Class.class);
-                ReflectionUtils.makeAccessible(isHandler);
-                if ((boolean) ReflectionUtils.invokeMethod(isHandler, mapping, controllerType)) {
-                //if (mapping.isHandler(controllerType)) {
-                    Method getPathPrefix = ReflectionUtils.findMethod(RequestMappingHandlerMapping.class, "getPathPrefix", Class.class);
-                    //String prefix = mapping.getPathPrefix(controllerType);
-                    ReflectionUtils.makeAccessible(getPathPrefix);
+                if ((boolean) Objects.requireNonNull(ReflectionUtils.invokeMethod(isHandler, mapping, controllerType))) {
                     String prefix = (String) ReflectionUtils.invokeMethod(getPathPrefix, mapping, controllerType);
                     if (prefix != null) {
                         return prefix;
@@ -603,6 +578,9 @@ public class FrameworkMvcUriComponentsBuilder {
         return "";
     }
 
+    /**
+     * Customized method to account for {@link FrameworkMapping} as well
+     */
     private static String getClassMapping(Class<?> controllerType) {
         Assert.notNull(controllerType, "'controllerType' must not be null");
 
@@ -634,6 +612,9 @@ public class FrameworkMvcUriComponentsBuilder {
         return paths[0];
     }
 
+    /**
+     * Customized method to account for {@link FrameworkMapping} as well
+     */
     private static String getMethodMapping(Method method) {
         Assert.notNull(method, "'method' must not be null");
 
