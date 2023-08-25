@@ -87,6 +87,9 @@ import org.springframework.web.util.pattern.PathPatternParser;
  * functionality for {@link FrameworkMapping} annotations. Since this class isn't extensible due to
  * heavy usage of {@code private} we had to copy and modify the whole class. Spring version updates
  * should seek to take in changes from {@link MvcUriComponentsBuilder} into this class.
+ * <p></p>
+ * At the time of this writing, the only changed methods are {@link FrameworkMvcUriComponentsBuilder#getClassMapping(Class)}
+ * and {@link FrameworkMvcUriComponentsBuilder#getMethodMapping(Method)}.
  *
  * @see MvcUriComponentsBuilder
  */
