@@ -50,7 +50,7 @@
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <blc.dependencies>2.9999.0-BRANCH-mpm3974-SNAPSHOT</blc.dependencies>
+        <blc.dependencies>2.9999.0-BRANCH-feature-sb3-SNAPSHOT</blc.dependencies>
         <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
         <maven.spotless.plugin.version>1.31.3</maven.spotless.plugin.version>
         <maven.spotless.java.formatter.version>4.13.0</maven.spotless.java.formatter.version>
