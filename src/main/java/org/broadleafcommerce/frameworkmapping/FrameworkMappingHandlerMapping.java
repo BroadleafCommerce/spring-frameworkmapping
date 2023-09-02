@@ -98,9 +98,6 @@ public class FrameworkMappingHandlerMapping extends RequestMappingHandlerMapping
 
     @Override
     protected RequestMappingInfo getMappingForMethod(Method method, Class<?> handlerType) {
-        // New approach is to redirect instead of matching trailing slash.
-        // However, this can have performance implications. Keeping deprecated approach for now.
-        getBuilderConfiguration().getPatternParser().setMatchOptionalTrailingSeparator(true);
         RequestMappingInfo requestMappingInfo = createFrameworkRequestMappingInfo(method);
         if (requestMappingInfo != null) {
             RequestMappingInfo typeInfo = createFrameworkRequestMappingInfo(handlerType);
@@ -110,6 +107,14 @@ public class FrameworkMappingHandlerMapping extends RequestMappingHandlerMapping
         }
 
         return requestMappingInfo;
+    }
+
+    @Override
+    public void afterPropertiesSet() {
+        super.afterPropertiesSet();
+        // New approach is to redirect instead of matching trailing slash.
+        // However, this can have performance implications. Keeping deprecated approach for now.
+        getBuilderConfiguration().getPatternParser().setMatchOptionalTrailingSeparator(true);
     }
 
     private RequestMappingInfo createFrameworkRequestMappingInfo(AnnotatedElement element) {

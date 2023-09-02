@@ -58,7 +58,7 @@ public class FrameworkMappingAutoConfiguration {
                         } catch (Exception e) {
                             throw new IllegalStateException(e);
                         }
-                        new UrlPathHelper().resolveAndCacheLookupPath(request);
+                        UrlPathHelper.defaultInstance.resolveAndCacheLookupPath(request);
                         if (hasFrameworkMatch) {
                             return null;
                         }
