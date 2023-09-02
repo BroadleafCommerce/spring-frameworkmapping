@@ -1,5 +1,5 @@
 mavenBuild {
-  agentLabel = 'maven-jdk11'
+  buildAgentLabel = 'build-jdk17'
   javadocsDirectories = ['target']
   dependencyCheckBomName = 'SpringFrameworkMapping'
   forceFlattenDetermination = 'true'
