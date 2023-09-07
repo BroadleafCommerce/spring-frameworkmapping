@@ -115,7 +115,7 @@ public class FrameworkMappingHandlerMapping extends RequestMappingHandlerMapping
      * Ideally, this would be configured in {@link #afterPropertiesSet()}. However, the
      * implementation in the super class does not allow for us to customize the instantiated pattern
      * parser before the super-super {@link AbstractHandlerMethodMapping#afterPropertiesSet()}
-     * method is called (which creates all the handler methods).
+     * method is called (which creates all the handler mappings).
      * <p>
      * Thus, we invoke this method at the later stage in
      * {@link #getMappingForMethod(Method, Class)}.
