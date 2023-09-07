@@ -24,6 +24,7 @@ import org.springframework.util.ClassUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.handler.AbstractHandlerMethodMapping;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
@@ -98,6 +99,7 @@ public class FrameworkMappingHandlerMapping extends RequestMappingHandlerMapping
 
     @Override
     protected RequestMappingInfo getMappingForMethod(Method method, Class<?> handlerType) {
+        configureMatchOptionalTrailingSeparator();
         RequestMappingInfo requestMappingInfo = createFrameworkRequestMappingInfo(method);
         if (requestMappingInfo != null) {
             RequestMappingInfo typeInfo = createFrameworkRequestMappingInfo(handlerType);
@@ -109,9 +111,16 @@ public class FrameworkMappingHandlerMapping extends RequestMappingHandlerMapping
         return requestMappingInfo;
     }
 
-    @Override
-    public void afterPropertiesSet() {
-        super.afterPropertiesSet();
+    /**
+     * Ideally, this would be configured in {@link #afterPropertiesSet()}. However, the
+     * implementation in the super class does not allow for us to customize the instantiated pattern
+     * parser before the super-super {@link AbstractHandlerMethodMapping#afterPropertiesSet()}
+     * method is called (which creates all the handler methods).
+     * <p>
+     * Thus, we invoke this method at the later stage in
+     * {@link #getMappingForMethod(Method, Class)}.
+     */
+    private void configureMatchOptionalTrailingSeparator() {
         // New approach is to redirect instead of matching trailing slash.
         // However, this can have performance implications. Keeping deprecated approach for now.
         getBuilderConfiguration().getPatternParser().setMatchOptionalTrailingSeparator(true);
