@@ -54,7 +54,7 @@
         <shared.codestyle.directory>${project.build.directory}/shared-codestyle-resources</shared.codestyle.directory>
         <broadleaf.codestyle.version>1.0.1-GA</broadleaf.codestyle.version>
         <maven.flatten.plugin.version>1.2.7</maven.flatten.plugin.version>
-        <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
+        <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
     </properties>
     <build>
         <pluginManagement>
