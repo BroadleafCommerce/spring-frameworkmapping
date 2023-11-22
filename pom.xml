@@ -49,10 +49,10 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <blc.dependencies>2.9999.0-BRANCH-feature-sb3-SNAPSHOT</blc.dependencies>
         <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
-        <maven.spotless.plugin.version>1.31.3</maven.spotless.plugin.version>
-        <maven.spotless.java.formatter.version>4.13.0</maven.spotless.java.formatter.version>
+        <maven.spotless.plugin.version>2.40.0</maven.spotless.plugin.version>
+        <maven.spotless.java.formatter.version>4.26</maven.spotless.java.formatter.version>
         <shared.codestyle.directory>${project.build.directory}/shared-codestyle-resources</shared.codestyle.directory>
-        <broadleaf.codestyle.version>1.0.1-GA</broadleaf.codestyle.version>
+        <broadleaf.codestyle.version>2.0.0-BRANCH-feature-sb3-SNAPSHOT</broadleaf.codestyle.version>
         <maven.flatten.plugin.version>1.2.7</maven.flatten.plugin.version>
         <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
     </properties>
