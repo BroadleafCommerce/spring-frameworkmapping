@@ -52,7 +52,7 @@
         <maven.spotless.plugin.version>2.40.0</maven.spotless.plugin.version>
         <maven.spotless.java.formatter.version>4.26</maven.spotless.java.formatter.version>
         <shared.codestyle.directory>${project.build.directory}/shared-codestyle-resources</shared.codestyle.directory>
-        <broadleaf.codestyle.version>2.0.0-BRANCH-feature-sb3-SNAPSHOT</broadleaf.codestyle.version>
+        <broadleaf.codestyle.version>2.0.0-GA</broadleaf.codestyle.version>
         <maven.flatten.plugin.version>1.2.7</maven.flatten.plugin.version>
         <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
     </properties>
