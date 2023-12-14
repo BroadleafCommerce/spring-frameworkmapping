@@ -42,7 +42,7 @@
         </repository>
     </repositories>
     <properties>
-        <revision>2.0.0-SNAPSHOT</revision>
+        <revision>2.0.0-GA</revision>
         <maven.compiler.release>17</maven.compiler.release>
         <resource.delimiter>@</resource.delimiter>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
