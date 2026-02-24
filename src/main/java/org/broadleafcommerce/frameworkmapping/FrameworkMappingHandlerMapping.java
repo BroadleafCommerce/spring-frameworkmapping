@@ -13,51 +13,19 @@
 package org.broadleafcommerce.frameworkmapping;
 
 import org.broadleafcommerce.frameworkmapping.annotation.FrameworkController;
-import org.broadleafcommerce.frameworkmapping.annotation.FrameworkControllerScan;
 import org.broadleafcommerce.frameworkmapping.annotation.FrameworkMapping;
-import org.broadleafcommerce.frameworkmapping.annotation.FrameworkRestController;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.core.annotation.AnnotationUtils;
-import org.springframework.stereotype.Controller;
 import org.springframework.util.ClassUtils;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.handler.AbstractHandlerMethodMapping;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;
+import java.util.Set;
+import java.util.stream.Collectors;
 
-/**
- * HandlerMapping to find and map {@link FrameworkMapping FrameworkMappings} inside
- * {@link FrameworkController} and {@link FrameworkRestController} classes.
- * <p>
- * When framework controllers are enabled with {@link FrameworkControllerScan}, and a class is
- * annotated with {@link FrameworkController} or {@link FrameworkRestController}, then this class
- * will add {@link FrameworkMapping FrameworkMappings} found within the class to handler mappings.
- * This class has a lower priority than the default
- * {@link org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping} so
- * when a request comes in, {@link org.springframework.web.bind.annotation.RequestMapping
- * RequestMappings} located inside a class annotated with {@link Controller} or
- * {@link RestController} will have a higher priority and be found before {@link FrameworkMapping
- * FrameworkMappings} found within a {@link FrameworkController} or {@link FrameworkRestController}.
- * <p>
- * The site handler mappings in play in order of precedence from highest to lowest are:
- * <ol>
- * <li>{@link RequestMappingHandlerMapping}</li>
- * <li>{@link FrameworkMappingHandlerMapping}</li>
- * </ol>
- *
- * @author Philip Baggett (pbaggett)
- * @see FrameworkControllerScan
- * @see FrameworkController
- * @see FrameworkRestController
- * @see FrameworkMapping
- */
 public class FrameworkMappingHandlerMapping extends RequestMappingHandlerMapping {
 
     public static final int REQUEST_MAPPING_ORDER = Ordered.LOWEST_PRECEDENCE - 2;
@@ -66,19 +34,6 @@ public class FrameworkMappingHandlerMapping extends RequestMappingHandlerMapping
         setOrder(REQUEST_MAPPING_ORDER);
     }
 
-    /**
-     * See AopUtils and ClassUtils. We want to generally prevent traversal up of super classes for
-     * determninig if beans fit within this handler mapping. However, if the controller itself is
-     * proxied (which can happen with @PreAuthorize @Transaction or other annotations on controller
-     * methods) then the "real" class is actually "super class" of the type passed in to this
-     * method. This util ensures that we always get the real bean type from the CGLib proxy type
-     * passed in here
-     * 
-     * @see AOPUtils
-     * @see ClassUtils
-     * @see AnnotationUtils
-     * @see AnnotatedElementUtils
-     */
     @Override
     protected boolean isHandler(Class<?> beanType) {
         Class<?> actualBeanType =
@@ -99,31 +54,40 @@ public class FrameworkMappingHandlerMapping extends RequestMappingHandlerMapping
 
     @Override
     protected RequestMappingInfo getMappingForMethod(Method method, Class<?> handlerType) {
-        configureMatchOptionalTrailingSeparator();
+        // 1. We removed configureMatchOptionalTrailingSeparator() as it's no longer possible
         RequestMappingInfo requestMappingInfo = createFrameworkRequestMappingInfo(method);
         if (requestMappingInfo != null) {
             RequestMappingInfo typeInfo = createFrameworkRequestMappingInfo(handlerType);
             if (typeInfo != null) {
                 requestMappingInfo = typeInfo.combine(requestMappingInfo);
             }
+
+            // 2. NEW: Explicitly add trailing slash variations to the mapping info
+            requestMappingInfo = applyTrailingSlashMatching(requestMappingInfo);
         }
 
         return requestMappingInfo;
     }
 
     /**
-     * Ideally, this would be configured in {@link #afterPropertiesSet()}. However, the
-     * implementation in the super class does not allow for us to customize the instantiated pattern
-     * parser before the super-super {@link AbstractHandlerMethodMapping#afterPropertiesSet()}
-     * method is called (which creates all the handler mappings).
-     * <p>
-     * Thus, we invoke this method at the later stage in
-     * {@link #getMappingForMethod(Method, Class)}.
+     * Replaces the old 'configureMatchOptionalTrailingSeparator' by explicitly adding both '/path'
+     * and '/path/' to the mapping metadata.
      */
-    private void configureMatchOptionalTrailingSeparator() {
-        // New approach is to redirect instead of matching trailing slash.
-        // However, this can have performance implications. Keeping deprecated approach for now.
-        getBuilderConfiguration().getPatternParser().setMatchOptionalTrailingSeparator(true);
+    private RequestMappingInfo applyTrailingSlashMatching(RequestMappingInfo info) {
+        Set<String> paths = info.getDirectPaths();
+        if (paths.isEmpty()) {
+            return info;
+        }
+
+        // Generate the "other" version of every path (add or remove slash)
+        Set<String> additionalPaths = paths.stream()
+                .map(path -> path.endsWith("/") ? path.substring(0, path.length() - 1) : path + "/")
+                .collect(Collectors.toSet());
+        paths.addAll(additionalPaths);
+        // Mutate the existing mapping to include both variations
+        return info.mutate()
+                .paths(paths.toArray(new String[0]))
+                .build();
     }
 
     private RequestMappingInfo createFrameworkRequestMappingInfo(AnnotatedElement element) {
@@ -135,59 +99,20 @@ public class FrameworkMappingHandlerMapping extends RequestMappingHandlerMapping
             return null;
         }
         frameworkMapping = AnnotationUtils.synthesizeAnnotation(frameworkMapping, null);
-        return (frameworkMapping != null
-                ? createRequestMappingInfo(
-                        convertFrameworkMappingToRequestMapping(frameworkMapping), null)
-                : null);
+        // In Spring 7, we use the RequestMappingInfo builder directly with current options
+        return RequestMappingInfo
+                .paths(frameworkMapping.path().length > 0 ? frameworkMapping.path()
+                        : frameworkMapping.value())
+                .methods(frameworkMapping.method())
+                .params(frameworkMapping.params())
+                .headers(frameworkMapping.headers())
+                .consumes(frameworkMapping.consumes())
+                .produces(frameworkMapping.produces())
+                .mappingName(frameworkMapping.name())
+                .options(getBuilderConfiguration()) // Use the mapping's current config
+                .build();
     }
 
-    private RequestMapping convertFrameworkMappingToRequestMapping(
-            final FrameworkMapping frameworkMapping) {
-        return new RequestMapping() {
-            @Override
-            public String name() {
-                return frameworkMapping.name();
-            }
-
-            @Override
-            public String[] value() {
-                return frameworkMapping.value();
-            }
-
-            @Override
-            public String[] path() {
-                return frameworkMapping.path();
-            }
-
-            @Override
-            public RequestMethod[] method() {
-                return frameworkMapping.method();
-            }
-
-            @Override
-            public String[] params() {
-                return frameworkMapping.params();
-            }
-
-            @Override
-            public String[] headers() {
-                return frameworkMapping.headers();
-            }
-
-            @Override
-            public String[] consumes() {
-                return frameworkMapping.consumes();
-            }
-
-            @Override
-            public String[] produces() {
-                return frameworkMapping.produces();
-            }
-
-            @Override
-            public Class<? extends Annotation> annotationType() {
-                return RequestMapping.class;
-            }
-        };
-    }
+    // Note: convertFrameworkMappingToRequestMapping is no longer strictly needed
+    // if you use the Builder pattern shown above.
 }

@@ -11,12 +11,14 @@ import org.broadleafcommerce.frameworkmapping.annotation.FrameworkController;
 import org.broadleafcommerce.frameworkmapping.annotation.FrameworkControllerScan;
 import org.broadleafcommerce.frameworkmapping.annotation.FrameworkGetMapping;
 import org.broadleafcommerce.frameworkmapping.annotation.FrameworkRestController;
+import org.broadleafcommerce.frameworkmapping.autoconfigure.FrameworkMappingAutoConfiguration;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.context.annotation.ComponentScan.Filter;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -38,6 +40,7 @@ public class NestedScannedControllerTest {
     @Configuration
     // this scans the entire package that the outer class is in
     @FrameworkControllerScan(basePackageClasses = FrameworkEndpoint.class)
+    @Import(FrameworkMappingAutoConfiguration.class)
     static class Config {}
 
     @FrameworkRestController

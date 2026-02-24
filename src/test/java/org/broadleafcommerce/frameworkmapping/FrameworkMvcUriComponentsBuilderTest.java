@@ -10,6 +10,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import org.broadleafcommerce.frameworkmapping.annotation.FrameworkController;
 import org.broadleafcommerce.frameworkmapping.annotation.FrameworkControllerScan;
+import org.broadleafcommerce.frameworkmapping.autoconfigure.FrameworkMappingAutoConfiguration;
 import org.broadleafcommerce.frameworkmapping.support.ControllerConfig;
 import org.broadleafcommerce.frameworkmapping.support.DefaultFrameworkController;
 import org.broadleafcommerce.frameworkmapping.support.FrameworkControllerWithClassLevelMapping;
@@ -17,7 +18,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -32,7 +33,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 public class FrameworkMvcUriComponentsBuilderTest {
 
     @Configuration
-    @Import(ControllerConfig.class)
+    @Import({ControllerConfig.class, FrameworkMappingAutoConfiguration.class})
     @FrameworkControllerScan(basePackages = "org.broadleafcommerce.frameworkmapping.support")
     static class Config {}
 

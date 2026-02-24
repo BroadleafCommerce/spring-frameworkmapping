@@ -5,8 +5,8 @@ import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication.Type;
-import org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration;
-import org.springframework.boot.autoconfigure.web.servlet.WebMvcRegistrations;
+import org.springframework.boot.webmvc.autoconfigure.WebMvcAutoConfiguration;
+import org.springframework.boot.webmvc.autoconfigure.WebMvcRegistrations;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.HandlerMethod;
@@ -30,7 +30,7 @@ import jakarta.servlet.http.HttpServletRequest;
 public class FrameworkMappingAutoConfiguration {
 
     @Bean
-    @ConditionalOnMissingBean
+    @ConditionalOnMissingBean(FrameworkMappingHandlerMapping.class)
     public FrameworkMappingHandlerMapping frameworkControllerHandlerMapping() {
         return new FrameworkMappingHandlerMapping();
     }
@@ -40,7 +40,7 @@ public class FrameworkMappingAutoConfiguration {
      * the framework mapping
      */
     @Bean
-    @ConditionalOnMissingBean
+    @ConditionalOnMissingBean(WebMvcRegistrations.class)
     public WebMvcRegistrations frameworkRequestMappingLenientOverride(
             FrameworkMappingHandlerMapping frameworkMapping) {
         return new WebMvcRegistrations() {

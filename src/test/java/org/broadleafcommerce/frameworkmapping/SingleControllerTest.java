@@ -8,12 +8,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.broadleafcommerce.frameworkmapping.annotation.FrameworkControllerScan;
+import org.broadleafcommerce.frameworkmapping.autoconfigure.FrameworkMappingAutoConfiguration;
 import org.broadleafcommerce.frameworkmapping.support.DefaultFrameworkController;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -28,6 +30,7 @@ public class SingleControllerTest {
 
     @Configuration
     @FrameworkControllerScan(basePackages = "org.broadleafcommerce.frameworkmapping.support")
+    @Import(FrameworkMappingAutoConfiguration.class)
     static class Config {}
 
     @Autowired
