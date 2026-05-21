@@ -89,4 +89,9 @@ public @interface FrameworkMapping {
      * @see RequestMapping#produces()
      */
     String[] produces() default {};
+
+    /**
+     * @see RequestMapping#version()
+     */
+    String version() default "";
 }

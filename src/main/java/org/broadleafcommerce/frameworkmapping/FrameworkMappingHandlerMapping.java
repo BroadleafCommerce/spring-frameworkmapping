@@ -16,6 +16,7 @@ import org.broadleafcommerce.frameworkmapping.annotation.FrameworkController;
 import org.broadleafcommerce.frameworkmapping.annotation.FrameworkControllerScan;
 import org.broadleafcommerce.frameworkmapping.annotation.FrameworkMapping;
 import org.broadleafcommerce.frameworkmapping.annotation.FrameworkRestController;
+import org.springframework.aop.support.AopUtils;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.core.annotation.AnnotationUtils;
@@ -74,7 +75,7 @@ public class FrameworkMappingHandlerMapping extends RequestMappingHandlerMapping
      * method. This util ensures that we always get the real bean type from the CGLib proxy type
      * passed in here
      * 
-     * @see AOPUtils
+     * @see AopUtils
      * @see ClassUtils
      * @see AnnotationUtils
      * @see AnnotatedElementUtils
@@ -123,7 +124,9 @@ public class FrameworkMappingHandlerMapping extends RequestMappingHandlerMapping
     private void configureMatchOptionalTrailingSeparator() {
         // New approach is to redirect instead of matching trailing slash.
         // However, this can have performance implications. Keeping deprecated approach for now.
-        getBuilderConfiguration().getPatternParser().setMatchOptionalTrailingSeparator(true);
+        // getBuilderConfiguration().getPatternParser().setMatchOptionalTrailingSeparator(true);
+        // TODO setMatchOptionalTrailingSeparator is now removed by Spring, do we reconsider the
+        // redirect or implement a custom approach?
     }
 
     private RequestMappingInfo createFrameworkRequestMappingInfo(AnnotatedElement element) {
@@ -182,6 +185,11 @@ public class FrameworkMappingHandlerMapping extends RequestMappingHandlerMapping
             @Override
             public String[] produces() {
                 return frameworkMapping.produces();
+            }
+
+            @Override
+            public String version() {
+                return frameworkMapping.version();
             }
 
             @Override
