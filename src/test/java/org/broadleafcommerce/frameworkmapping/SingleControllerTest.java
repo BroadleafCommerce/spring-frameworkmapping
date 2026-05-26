@@ -41,6 +41,13 @@ public class SingleControllerTest {
     }
 
     @Test
+    public void foundActivatedControllerTrailingSlash() throws Exception {
+        mockMvc.perform(get("/framework-only-get/"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("frameworkControllerOnlyGetResponse"));
+    }
+
+    @Test
     public void deactivatedControllerNotFound() throws Exception {
         mockMvc.perform(get("/framework-only-get-proxy"))
                 .andExpect(status().isNotFound());

@@ -25,13 +25,14 @@ import org.springframework.util.ClassUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.handler.AbstractHandlerMethodMapping;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;
+import java.util.Set;
+import java.util.stream.Stream;
 
 /**
  * HandlerMapping to find and map {@link FrameworkMapping FrameworkMappings} inside
@@ -100,33 +101,45 @@ public class FrameworkMappingHandlerMapping extends RequestMappingHandlerMapping
 
     @Override
     protected RequestMappingInfo getMappingForMethod(Method method, Class<?> handlerType) {
-        configureMatchOptionalTrailingSeparator();
         RequestMappingInfo requestMappingInfo = createFrameworkRequestMappingInfo(method);
         if (requestMappingInfo != null) {
             RequestMappingInfo typeInfo = createFrameworkRequestMappingInfo(handlerType);
             if (typeInfo != null) {
                 requestMappingInfo = typeInfo.combine(requestMappingInfo);
             }
+            requestMappingInfo = applyTrailingSeparatorMatch(requestMappingInfo);
         }
 
         return requestMappingInfo;
     }
 
     /**
-     * Ideally, this would be configured in {@link #afterPropertiesSet()}. However, the
-     * implementation in the super class does not allow for us to customize the instantiated pattern
-     * parser before the super-super {@link AbstractHandlerMethodMapping#afterPropertiesSet()}
-     * method is called (which creates all the handler mappings).
-     * <p>
-     * Thus, we invoke this method at the later stage in
-     * {@link #getMappingForMethod(Method, Class)}.
+     * Since Spring Framework 7+ has removed the `setMatchOptionalTrailingSeparator` and
+     * `setUseTrailingSlashMatch` properties and favors either exact matches or redirects (via
+     * TrailingSlashRedirectFilter), the most efficient way to support optional trailing separators
+     * without an extra HTTP round-trip is to register both path variants in the MappingRegistry.
+     *
+     * @param info the {@link RequestMappingInfo} to register
+     * @return the {@link RequestMappingInfo} to register, with an updated list of patterns to match
      */
-    private void configureMatchOptionalTrailingSeparator() {
-        // New approach is to redirect instead of matching trailing slash.
-        // However, this can have performance implications. Keeping deprecated approach for now.
-        // getBuilderConfiguration().getPatternParser().setMatchOptionalTrailingSeparator(true);
-        // TODO setMatchOptionalTrailingSeparator is now removed by Spring, do we reconsider the
-        // redirect or implement a custom approach?
+    private RequestMappingInfo applyTrailingSeparatorMatch(RequestMappingInfo info) {
+        Set<String> patterns = info.getPatternValues();
+        if (patterns.isEmpty()) {
+            return info;
+        }
+
+        String[] expandedPatterns = patterns.stream()
+                .flatMap(pattern -> {
+                    if (pattern.endsWith("/")) {
+                        return Stream.of(pattern, pattern.substring(0, pattern.length() - 1));
+                    } else {
+                        return Stream.of(pattern, pattern + "/");
+                    }
+                })
+                .distinct()
+                .toArray(String[]::new);
+
+        return info.mutate().paths(expandedPatterns).build();
     }
 
     private RequestMappingInfo createFrameworkRequestMappingInfo(AnnotatedElement element) {
