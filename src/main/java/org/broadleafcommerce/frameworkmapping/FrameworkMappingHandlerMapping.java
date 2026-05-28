@@ -132,6 +132,8 @@ public class FrameworkMappingHandlerMapping extends RequestMappingHandlerMapping
                 .flatMap(pattern -> {
                     if (pattern.endsWith("/")) {
                         return Stream.of(pattern, pattern.substring(0, pattern.length() - 1));
+                    } else if (pattern.endsWith("**") || pattern.contains("{*")) {
+                        return Stream.of(pattern);
                     } else {
                         return Stream.of(pattern, pattern + "/");
                     }
