@@ -50,7 +50,7 @@ public class WildcardMappingTest {
         mockMvc.perform(get("/wildcard/foo/bar"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("wildcard"));
-        
+
         mockMvc.perform(get("/wildcard/foo/bar/"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("wildcard"));
@@ -61,7 +61,7 @@ public class WildcardMappingTest {
         mockMvc.perform(get("/capture/foo/bar"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("capture"));
-        
+
         mockMvc.perform(get("/capture/foo/bar/"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("capture"));
@@ -72,7 +72,7 @@ public class WildcardMappingTest {
         mockMvc.perform(get("/regular"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("regular"));
-        
+
         mockMvc.perform(get("/regular/"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("regular"));
