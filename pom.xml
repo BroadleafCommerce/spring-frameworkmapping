@@ -54,8 +54,7 @@
         <broadleaf.codestyle.version>2.0.0-GA</broadleaf.codestyle.version>
         <maven.flatten.plugin.version>1.2.7</maven.flatten.plugin.version>
         <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
-        <spring.framework.version>7.0.7</spring.framework.version>
-        <spring.boot.version>4.0.6</spring.boot.version>
+        <spring.boot.version>4.1.0</spring.boot.version>
     </properties>
     <build>
         <pluginManagement>

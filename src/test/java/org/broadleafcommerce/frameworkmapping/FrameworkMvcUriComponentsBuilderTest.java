@@ -40,7 +40,7 @@ public class FrameworkMvcUriComponentsBuilderTest {
     MockMvc mockMvc;
 
     @BeforeEach
-    private void setUpRequestAttributes() {
+    protected void setUpRequestAttributes() {
         MockHttpServletRequest request = new MockHttpServletRequest();
         RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
 
