@@ -12,7 +12,7 @@ import org.broadleafcommerce.frameworkmapping.support.DefaultFrameworkController
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
@@ -36,6 +36,13 @@ public class SingleControllerTest {
     @Test
     public void foundActivatedController() throws Exception {
         mockMvc.perform(get("/framework-only-get"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("frameworkControllerOnlyGetResponse"));
+    }
+
+    @Test
+    public void foundActivatedControllerTrailingSlash() throws Exception {
+        mockMvc.perform(get("/framework-only-get/"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("frameworkControllerOnlyGetResponse"));
     }
