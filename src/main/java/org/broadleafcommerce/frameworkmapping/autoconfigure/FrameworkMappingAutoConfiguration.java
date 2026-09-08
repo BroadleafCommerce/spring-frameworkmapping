@@ -55,6 +55,8 @@ public class FrameworkMappingAutoConfiguration {
                         boolean hasFrameworkMatch;
                         try {
                             hasFrameworkMatch = frameworkMapping.getHandler(request) != null;
+                        } catch (ServletException e) {
+                            throw e;
                         } catch (Exception e) {
                             throw new IllegalStateException(e);
                         }
