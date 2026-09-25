@@ -119,4 +119,18 @@ public class EnabledFrameworkMappingTest {
                 .andExpect(content().string("frameworkControllerOnlyGetResponse - Extended"));
     }
 
+    @Test
+    public void testFrameworkMappingUnsupportedMethodReturns405() throws Exception {
+        mockMvc.perform(post("/framework-only-get"))
+                .andExpect(status().isMethodNotAllowed());
+    }
+
+    @Test
+    public void testFrameworkMappingUnsupportedMediaTypeReturns415() throws Exception {
+        mockMvc.perform(put("/framework-convenience-put")
+                .content("{}")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isUnsupportedMediaType());
+    }
+
 }
